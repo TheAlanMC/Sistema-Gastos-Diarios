@@ -7,14 +7,25 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import newadapter.SpinnerNewAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link homeFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
+    Spinner spfuente;
+    ArrayAdapter<String> adaptaFuente;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -24,7 +35,7 @@ public class homeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public homeFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +48,8 @@ public class homeFragment extends Fragment {
      * @return A new instance of fragment homeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static homeFragment newInstance(String param1, String param2) {
-        homeFragment fragment = new homeFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -58,7 +69,20 @@ public class homeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        String[] textArray = {"Tarjeta", "Efectivo","Ahorros"};
+        Integer[] imageArray = {R.drawable.credit_card, R.drawable.money,
+                R.drawable.piggy_bank};
+
+        Spinner spinner = view.findViewById(R.id.spfuente);
+
+        SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
+        spinner.setAdapter(adapter);
+
+
+
+        return view;
     }
 }

@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity {
+    HomeFragment homeF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        homeF = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.flContainer, homeF).commit();
     }
 
     @Override
