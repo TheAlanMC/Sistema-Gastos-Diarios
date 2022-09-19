@@ -14,17 +14,21 @@
                 android:icon="@drawable/home"
                 android:title="Home" />
             <item
-                android:id="@+id/menuListaMovimientos"
-                android:icon="@drawable/document"
-                android:title="Lista de Movimientos" />
-            <item
-                android:id="@+id/menuBusca"
+                android:id="@+id/menuIngresos"
                 android:icon="@drawable/profits"
                 android:title="Ingresos" />
             <item
-                android:id="@+id/menuBaja"
+                android:id="@+id/menuGastos"
                 android:icon="@drawable/expense"
                 android:title="Gastos" />
+            <item
+                android:id="@+id/menuTrasferencias"
+                android:icon="@drawable/transfer"
+                android:title="Transferencias" />
+            <item
+                android:id="@+id/menuListaMovimientos"
+                android:icon="@drawable/document"
+                android:title="Lista de Movimientos" />
         </menu>
     </item>
 </menu>

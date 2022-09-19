@@ -4,86 +4,104 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import newadapter.SpinnerNewAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
-
-    Spinner spfuente;
-    ArrayAdapter<String> adaptaFuente;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    int selecteditem;
+    TextView tvingresos1, tvingresos2, tvgastos1, tvgastos2, tvtransferencia1, tvtransferencia2;
+    TextView tvingreso, tvbalanceanterior, tvgasto, tvbalanceactual;
+    Button btlistamovimientos;
+    String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
+    Integer[] imageArray = {R.drawable.credit_card, R.drawable.money,
+            R.drawable.piggy_bank};
+    MedioTransporte medio;
+    Spinner spinner;
 
     public HomeFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment homeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-
-        String[] textArray = {"Tarjeta", "Efectivo","Ahorros"};
-        Integer[] imageArray = {R.drawable.credit_card, R.drawable.money,
-                R.drawable.piggy_bank};
-
-        Spinner spinner = view.findViewById(R.id.spfuente);
-
+        spinner = view.findViewById(R.id.spfuente);
         SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
         spinner.setAdapter(adapter);
+        tvingresos1 = view.findViewById(R.id.tvingresosa);
+        tvingresos2 = view.findViewById(R.id.tvingresosb);
+        tvgastos1 = view.findViewById(R.id.tvgastosa);
+        tvgastos2 = view.findViewById(R.id.tvgastosb);
+        tvtransferencia1 = view.findViewById(R.id.tvtrafera);
+        tvtransferencia2 = view.findViewById(R.id.tvtraferb);
 
+        btlistamovimientos = view.findViewById(R.id.btlistamovimientos);
 
+        medio = (MedioTransporte) getActivity();
 
+        tvingresos1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.ingresos(selecteditem);
+            }
+        });
+        tvingresos2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.ingresos(selecteditem);
+            }
+        });
+        tvgastos1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.gastos(selecteditem);
+            }
+        });
+        tvgastos2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.gastos(selecteditem);
+            }
+        });
+        tvtransferencia1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.transfer(selecteditem);
+            }
+        });
+        tvtransferencia2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.transfer(selecteditem);
+            }
+        });
+        btlistamovimientos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecteditem = spinner.getSelectedItemPosition();
+                medio.movimientos(selecteditem);
+            }
+        });
         return view;
     }
 }
