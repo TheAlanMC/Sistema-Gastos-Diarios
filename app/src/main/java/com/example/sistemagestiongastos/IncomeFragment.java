@@ -26,14 +26,12 @@ import newadapter.SpinnerNewAdapter;
 public class IncomeFragment extends Fragment {
 
     String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
-    Integer[] imageArray = {R.drawable.credit_card, R.drawable.money,
-            R.drawable.piggy_bank};
+    Integer[] imageArray = {R.drawable.credit_card, R.drawable.money, R.drawable.piggy_bank};
     Spinner spinner;
     SpinnerNewAdapter adapter;
 
     String[] textArrayCat = {"Prestamo", "Salario", "Ventas"};
-    Integer[] imageArrayCat = {R.drawable.loan, R.drawable.salary,
-            R.drawable.sales};
+    Integer[] imageArrayCat = {R.drawable.loan, R.drawable.salary, R.drawable.sales};
     Spinner spinnerCat;
     SpinnerNewAdapter adapterCat;
 
