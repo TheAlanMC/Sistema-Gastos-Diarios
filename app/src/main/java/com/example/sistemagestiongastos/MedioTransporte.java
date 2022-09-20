@@ -8,4 +8,6 @@ public interface MedioTransporte {
     void transfer(int fuenteid);
 
     void movimientos(int fuenteid);
+
+    void home();
 }

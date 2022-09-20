@@ -138,7 +138,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/btguardaringreso"
@@ -146,6 +146,13 @@
                     android:layout_height="wrap_content"
                     android:text="Guardar"
                     android:backgroundTint="#3F51B5"
+                    />
+                <Button
+                    android:id="@+id/btcancelaringreso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelar"
+                    android:backgroundTint="#E91E63"
                     />
             </LinearLayout>
         </LinearLayout>

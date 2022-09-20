@@ -107,4 +107,11 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
         getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, listaMovimientosF).commit();
     }
 
+    @Override
+    public void home() {
+        this.setTitle("Home");
+        homeF = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, homeF).commit();
+    }
+
 }

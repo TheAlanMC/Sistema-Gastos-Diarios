@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,7 +28,7 @@ public class ExpenseFragment extends Fragment {
 
     String[] textArrayCat = {"Otros", "Ropa", "Bebidas", "Educacion", "Comida", "Combustible", "Diversion", "Salud", "Viaje", "Hotel",
             "Mercaderia", "Personal", "Mascotas", "Restaurante", "Propinas", "Transporte"};
-    Integer[] imageArrayCat = {R.drawable.question, R.drawable.clothes,R.drawable.drink, R.drawable.education, R.drawable.food,
+    Integer[] imageArrayCat = {R.drawable.question, R.drawable.clothes, R.drawable.drink, R.drawable.education, R.drawable.food,
             R.drawable.fuel, R.drawable.fun, R.drawable.healthcare, R.drawable.road, R.drawable.hotel, R.drawable.box,
             R.drawable.hands, R.drawable.paw, R.drawable.restaurant, R.drawable.tip, R.drawable.taxi};
     Spinner spinnerCat;
@@ -35,6 +36,9 @@ public class ExpenseFragment extends Fragment {
 
     EditText etDate;
     EditText etTime;
+
+    Button btcancelar;
+    MedioTransporte medio;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -80,6 +84,15 @@ public class ExpenseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showTimePickerDialog();
+            }
+        });
+
+        medio = (MedioTransporte) getActivity();
+        btcancelar = view.findViewById(R.id.btcancelargasto);
+        btcancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                medio.home();
             }
         });
         return view;

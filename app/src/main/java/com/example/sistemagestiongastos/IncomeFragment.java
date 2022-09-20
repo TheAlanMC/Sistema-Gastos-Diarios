@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -37,6 +38,10 @@ public class IncomeFragment extends Fragment {
 
     EditText etDate;
     EditText etTime;
+
+    Button btcancelar;
+    MedioTransporte medio;
+
 
     public IncomeFragment() {
         // Required empty public constructor
@@ -84,6 +89,16 @@ public class IncomeFragment extends Fragment {
                 showTimePickerDialog();
             }
         });
+
+        medio = (MedioTransporte) getActivity();
+        btcancelar = view.findViewById(R.id.btcancelaringreso);
+        btcancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                medio.home();
+            }
+        });
+
         return view;
     }
 
