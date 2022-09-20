@@ -30,12 +30,12 @@
                 android:layout_height="0dp" />
 
             <EditText
-                android:id="@+id/tvnumingreso"
+                android:id="@+id/etnumingreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
+                android:hint="0"
                 android:inputType="numberDecimal"
-                android:text="0"
                 android:textSize="30dp" />
         </LinearLayout>
 
@@ -74,7 +74,7 @@
                 android:layout_height="0dp" />
 
             <EditText
-                android:id="@+id/tvdescingreso"
+                android:id="@+id/etdescingreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Escriba una breve descripcion"
@@ -144,16 +144,15 @@
                     android:id="@+id/btguardaringreso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guardar"
                     android:backgroundTint="#3F51B5"
-                    />
+                    android:text="Guardar" />
+
                 <Button
                     android:id="@+id/btcancelaringreso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelar"
                     android:backgroundTint="#E91E63"
-                    />
+                    android:text="Cancelar" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

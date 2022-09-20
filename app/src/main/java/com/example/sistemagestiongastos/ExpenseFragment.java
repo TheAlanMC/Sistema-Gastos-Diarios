@@ -14,8 +14,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
+
+import models.ModeloGasto;
 
 import newadapter.SpinnerNewAdapter;
 
@@ -39,6 +42,9 @@ public class ExpenseFragment extends Fragment {
 
     Button btcancelar;
     MedioTransporte medio;
+
+    Button btguardar;
+    Controller controller;
 
     public ExpenseFragment() {
         // Required empty public constructor
@@ -93,6 +99,31 @@ public class ExpenseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 medio.home();
+            }
+        });
+
+        btguardar = view.findViewById(R.id.btguardargasto);
+        btguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller = new Controller(getContext());
+                EditText etmonto = view.findViewById(R.id.etnumgasto);
+                EditText etdescripcion = view.findViewById(R.id.etdescgasto);
+                Double monto = Double.parseDouble(etmonto.getText().toString());
+                int idfuente = spinner.getSelectedItemPosition() +1;
+                int idcategoria = spinnerCat.getSelectedItemPosition() +1;
+                String descripcion = etdescripcion.getText().toString();
+                String date[] = etDate.getText().toString().split(" / ");
+                String fechahora = (date[2]+"-"+date[1]+"-"+date[0])+" "+etTime.getText().toString()+":00";
+
+                ModeloGasto objgasto= new ModeloGasto(monto, idfuente, idcategoria, descripcion, fechahora);
+                long res = controller.altaGasto(objgasto);
+                if (res>0){
+                    Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(),"Failure",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

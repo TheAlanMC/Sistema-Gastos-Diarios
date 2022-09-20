@@ -14,9 +14,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
+import models.ModeloIngreso;
 import newadapter.SpinnerNewAdapter;
 
 public class TransferFragment extends Fragment {
@@ -35,6 +37,8 @@ public class TransferFragment extends Fragment {
     Button btcancelar;
     MedioTransporte medio;
 
+    Button btguardar;
+    Controller controller;
 
     public TransferFragment() {
         // Required empty public constructor
@@ -84,7 +88,7 @@ public class TransferFragment extends Fragment {
         });
 
         medio = (MedioTransporte) getActivity();
-        btcancelar = view.findViewById(R.id.btcancelaringreso);
+        btcancelar = view.findViewById(R.id.btcancelartransferencia);
         btcancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +96,30 @@ public class TransferFragment extends Fragment {
             }
         });
 
+        btguardar = view.findViewById(R.id.btguardartransferencia);
+        btguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller = new Controller(getContext());
+                EditText etmonto = view.findViewById(R.id.etnumtransfer);
+                EditText etdescripcion = view.findViewById(R.id.etdesctransfer);
+
+                Double monto = Double.parseDouble(etmonto.getText().toString());
+                int idfuenteorigen = spinner.getSelectedItemPosition() + 1;
+                int idfuentedestino = spinnerDest.getSelectedItemPosition() + 1;
+                String descripcion = etdescripcion.getText().toString();
+                String date[] = etDate.getText().toString().split(" / ");
+                String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
+
+                ModeloIngreso objingreso = new ModeloIngreso(monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
+                long res = controller.altaIngreso(objingreso);
+                if (res > 0) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         return view;
     }
 

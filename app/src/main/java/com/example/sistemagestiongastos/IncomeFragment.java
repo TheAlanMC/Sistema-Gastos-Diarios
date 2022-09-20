@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.BreakIterator;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import models.ModeloIngreso;
 import newadapter.SpinnerNewAdapter;
 
 public class IncomeFragment extends Fragment {
@@ -42,6 +44,8 @@ public class IncomeFragment extends Fragment {
     Button btcancelar;
     MedioTransporte medio;
 
+    Button btguardar;
+    Controller controller;
 
     public IncomeFragment() {
         // Required empty public constructor
@@ -96,6 +100,33 @@ public class IncomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 medio.home();
+            }
+        });
+
+
+        btguardar = view.findViewById(R.id.btguardaringreso);
+        btguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller = new Controller(getContext());
+                EditText etmonto = view.findViewById(R.id.etnumingreso);
+                EditText etdescripcion = view.findViewById(R.id.etdescingreso);
+
+                Double monto = Double.parseDouble(etmonto.getText().toString());
+                int idfuente = spinner.getSelectedItemPosition() +1;
+                int idcategoria = spinnerCat.getSelectedItemPosition() +1;
+                String descripcion = etdescripcion.getText().toString();
+                String date[] = etDate.getText().toString().split(" / ");
+                String fechahora = (date[2]+"-"+date[1]+"-"+date[0])+" "+etTime.getText().toString()+":00";
+
+                ModeloIngreso objingreso = new ModeloIngreso(monto, idfuente, idcategoria, descripcion, fechahora);
+                long res = controller.altaIngreso(objingreso);
+                if (res>0){
+                    Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getContext(),"Failure",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
