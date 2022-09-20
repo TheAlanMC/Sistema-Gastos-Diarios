@@ -42,8 +42,8 @@ public class Controller {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
         valoresParaInsertar.put("monto", objProd.getMontoTransferencia());
-        valoresParaInsertar.put("fuente_origen_id", objProd.getCuentaOrigenTransferencia());
-        valoresParaInsertar.put("fuente_destino_id", objProd.getCuentaDestinoTransferencia());
+        valoresParaInsertar.put("fuente_id_origen", objProd.getCuentaOrigenTransferencia());
+        valoresParaInsertar.put("fuente_id_destino", objProd.getCuentaDestinoTransferencia());
         valoresParaInsertar.put("descripcion", objProd.getDescripcionTransferencia());
         valoresParaInsertar.put("fecha_hora", objProd.getFechaHoraTransferencia());
         return sql.insert("transferencias", null, valoresParaInsertar);
