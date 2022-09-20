@@ -73,7 +73,7 @@ public class IncomeFragment extends Fragment {
         int minute = c.get(Calendar.MINUTE);
 
         etDate = view.findViewById(R.id.etfechaingreso);
-        etDate.setText(day + "/" + (month + 1) + "/" + year);
+        etDate.setText(day + " / " + (month + 1) + " / " + year);
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
