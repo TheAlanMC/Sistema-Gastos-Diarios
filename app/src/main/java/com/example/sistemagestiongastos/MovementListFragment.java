@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 import newadapter.SpinnerNewAdapter;
 
-public class ListaMovimientos extends Fragment {
+public class MovementListFragment extends Fragment {
 
 
     String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
@@ -28,7 +28,7 @@ public class ListaMovimientos extends Fragment {
     String[] mes = new String[]{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
     String[] anio = new String[]{"2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
 
-    public ListaMovimientos() {
+    public MovementListFragment() {
         // Required empty public constructor
     }
 

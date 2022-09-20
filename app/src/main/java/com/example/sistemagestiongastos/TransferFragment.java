@@ -18,8 +18,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import models.ModeloIngreso;
-import models.ModeloTransferencia;
+import models.TransferModel;
 import newadapter.SpinnerNewAdapter;
 
 public class TransferFragment extends Fragment {
@@ -112,7 +111,7 @@ public class TransferFragment extends Fragment {
                 String date[] = etDate.getText().toString().split(" / ");
                 String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
 
-                ModeloTransferencia objtransfer = new ModeloTransferencia(monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
+                TransferModel objtransfer = new TransferModel(monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
                 long res = controller.altaTransferencia(objtransfer);
                 if (res > 0) {
                     Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();

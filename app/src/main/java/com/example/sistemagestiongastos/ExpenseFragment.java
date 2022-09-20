@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import models.ModeloGasto;
+import models.ExpenseModel;
 
 import newadapter.SpinnerNewAdapter;
 
@@ -116,7 +116,7 @@ public class ExpenseFragment extends Fragment {
                 String date[] = etDate.getText().toString().split(" / ");
                 String fechahora = (date[2]+"-"+date[1]+"-"+date[0])+" "+etTime.getText().toString()+":00";
 
-                ModeloGasto objgasto= new ModeloGasto(monto, idfuente, idcategoria, descripcion, fechahora);
+                ExpenseModel objgasto= new ExpenseModel(monto, idfuente, idcategoria, descripcion, fechahora);
                 long res = controller.altaGasto(objgasto);
                 if (res>0){
                     Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();

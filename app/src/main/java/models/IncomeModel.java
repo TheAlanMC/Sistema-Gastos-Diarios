@@ -1,6 +1,6 @@
 package models;
 
-public class ModeloIngreso {
+public class IncomeModel {
     private int idIngreso;
     private double montoIngreso;
     private int fuenteIdIngreso;
@@ -8,7 +8,7 @@ public class ModeloIngreso {
     private String descripcionIngreso;
     private String fechaHoraIngreso;
 
-    public ModeloIngreso(int idIngreso, double montoIngreso, int fuenteIdIngreso, int categoriaIdIngreso, String descripcionIngreso, String fechaHoraIngreso) {
+    public IncomeModel(int idIngreso, double montoIngreso, int fuenteIdIngreso, int categoriaIdIngreso, String descripcionIngreso, String fechaHoraIngreso) {
         this.idIngreso = idIngreso;
         this.montoIngreso = montoIngreso;
         this.fuenteIdIngreso = fuenteIdIngreso;
@@ -17,7 +17,7 @@ public class ModeloIngreso {
         this.fechaHoraIngreso = fechaHoraIngreso;
     }
 
-    public ModeloIngreso(double montoIngreso, int fuenteIdIngreso, int categoriaIdIngreso, String descripcionIngreso, String fechaHoraIngreso) {
+    public IncomeModel(double montoIngreso, int fuenteIdIngreso, int categoriaIdIngreso, String descripcionIngreso, String fechaHoraIngreso) {
         this.montoIngreso = montoIngreso;
         this.fuenteIdIngreso = fuenteIdIngreso;
         this.categoriaIdIngreso = categoriaIdIngreso;

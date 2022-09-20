@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     IncomeFragment ingresosF;
     ExpenseFragment gastosF;
     TransferFragment transferenciasF;
-    ListaMovimientos listaMovimientosF;
+    MovementListFragment movimientosF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
         ingresosF = new IncomeFragment();
         gastosF = new ExpenseFragment();
         transferenciasF = new TransferFragment();
-        listaMovimientosF = new ListaMovimientos();
+        movimientosF = new MovementListFragment();
         homeF = new HomeFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.flContainer, homeF).commit();
@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
                 break;
             case R.id.menuListaMovimientos:
                 this.setTitle("Lista de Movimientos");
-                listaMovimientosF = new ListaMovimientos();
-                getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, listaMovimientosF).commit();
+                movimientosF = new MovementListFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, movimientosF).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
         this.setTitle("Lista de Movimientos");
         Bundle bolsa = new Bundle();
         bolsa.putInt("index", fuenteid);
-        listaMovimientosF = new ListaMovimientos();
-        listaMovimientosF.setArguments(bolsa);
-        getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, listaMovimientosF).commit();
+        movimientosF = new MovementListFragment();
+        movimientosF.setArguments(bolsa);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, movimientosF).commit();
     }
 
     @Override

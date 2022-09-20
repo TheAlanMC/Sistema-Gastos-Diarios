@@ -1,6 +1,6 @@
 package models;
 
-public class ModeloTransferencia {
+public class TransferModel {
     private int idTransferencia;
     private double montoTransferencia;
     private int cuentaOrigenTransferencia;
@@ -8,7 +8,7 @@ public class ModeloTransferencia {
     private String descripcionTransferencia;
     private String fechaHoraTransferencia;
 
-    public ModeloTransferencia(int idTransferencia, double montoTransferencia, int cuentaOrigenTransferencia, int cuentaDestinoTransferencia, String descripcionTransferencia, String fechaHoraTransferencia) {
+    public TransferModel(int idTransferencia, double montoTransferencia, int cuentaOrigenTransferencia, int cuentaDestinoTransferencia, String descripcionTransferencia, String fechaHoraTransferencia) {
         this.idTransferencia = idTransferencia;
         this.montoTransferencia = montoTransferencia;
         this.cuentaOrigenTransferencia = cuentaOrigenTransferencia;
@@ -17,7 +17,7 @@ public class ModeloTransferencia {
         this.fechaHoraTransferencia = fechaHoraTransferencia;
     }
 
-    public ModeloTransferencia(double montoTransferencia, int cuentaOrigenTransferencia, int cuentaDestinoTransferencia, String descripcionTransferencia, String fechaHoraTransferencia) {
+    public TransferModel(double montoTransferencia, int cuentaOrigenTransferencia, int cuentaDestinoTransferencia, String descripcionTransferencia, String fechaHoraTransferencia) {
         this.montoTransferencia = montoTransferencia;
         this.cuentaOrigenTransferencia = cuentaOrigenTransferencia;
         this.cuentaDestinoTransferencia = cuentaDestinoTransferencia;

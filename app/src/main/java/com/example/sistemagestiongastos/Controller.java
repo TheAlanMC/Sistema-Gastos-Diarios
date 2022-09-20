@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import models.ModeloGasto;
-import models.ModeloIngreso;
-import models.ModeloTransferencia;
+import models.ExpenseModel;
+import models.IncomeModel;
+import models.TransferModel;
 
 public class Controller {
     Helper helper;
@@ -16,7 +16,7 @@ public class Controller {
     }
 
 
-    public long altaIngreso(ModeloIngreso objProd) {
+    public long altaIngreso(IncomeModel objProd) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
         valoresParaInsertar.put("monto", objProd.getMontoIngreso());
@@ -27,7 +27,7 @@ public class Controller {
         return sql.insert("ingresos", null, valoresParaInsertar);
     }
 
-    public long altaGasto(ModeloGasto objProd) {
+    public long altaGasto(ExpenseModel objProd) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
         valoresParaInsertar.put("monto", objProd.getMontoGasto());
@@ -38,7 +38,7 @@ public class Controller {
         return sql.insert("gastos", null, valoresParaInsertar);
     }
 
-    public long altaTransferencia(ModeloTransferencia objProd) {
+    public long altaTransferencia(TransferModel objProd) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
         valoresParaInsertar.put("monto", objProd.getMontoTransferencia());

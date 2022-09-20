@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,9 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.BreakIterator;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
-import models.ModeloIngreso;
+import models.IncomeModel;
 import newadapter.SpinnerNewAdapter;
 
 public class IncomeFragment extends Fragment {
@@ -119,7 +114,7 @@ public class IncomeFragment extends Fragment {
                 String date[] = etDate.getText().toString().split(" / ");
                 String fechahora = (date[2]+"-"+date[1]+"-"+date[0])+" "+etTime.getText().toString()+":00";
 
-                ModeloIngreso objingreso = new ModeloIngreso(monto, idfuente, idcategoria, descripcion, fechahora);
+                IncomeModel objingreso = new IncomeModel(monto, idfuente, idcategoria, descripcion, fechahora);
                 long res = controller.altaIngreso(objingreso);
                 if (res>0){
                     Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
