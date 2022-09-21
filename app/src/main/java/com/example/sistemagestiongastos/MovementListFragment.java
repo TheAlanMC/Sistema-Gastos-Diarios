@@ -14,7 +14,9 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -39,6 +41,10 @@ public class MovementListFragment extends Fragment {
     RecyclerView rvproducto;
     MovementAdapter adaptador;
     Controller controller;
+
+    String balance;
+
+    TextView tvbalance;
 
     public MovementListFragment() {
         // Required empty public constructor
@@ -89,6 +95,10 @@ public class MovementListFragment extends Fragment {
         adaptador.notifyDataSetChanged();
         rvproducto.setAdapter(adaptador);
 
+        balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+        tvbalance = view.findViewById(R.id.tvbalance);
+        tvbalance.setText(balance);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -96,7 +106,11 @@ public class MovementListFragment extends Fragment {
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
                 rvproducto.setAdapter(adaptador);
+
+                balance = controller.ObtenerBalance(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                tvbalance.setText(balance);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -109,7 +123,11 @@ public class MovementListFragment extends Fragment {
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
                 rvproducto.setAdapter(adaptador);
+
+                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                tvbalance.setText(balance);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -122,11 +140,17 @@ public class MovementListFragment extends Fragment {
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
                 rvproducto.setAdapter(adaptador);
+
+                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                tvbalance.setText(balance);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+
         return view;
     }
 

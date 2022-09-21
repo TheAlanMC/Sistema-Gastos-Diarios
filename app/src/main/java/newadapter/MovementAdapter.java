@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sistemagestiongastos.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import models.MovementModel;
@@ -92,7 +93,10 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
                     textArray[lista.get(position).getCategoriaIdMovimiento() - 1] + (")");
             holder.tvdescripcion.setText(descripcion);
         }
-        holder.tvmonto.setText("Bs." + lista.get(position).getMontoMovimiento());
+
+        DecimalFormat df = new DecimalFormat("#.00");
+        String monto = df.format(lista.get(position).getMontoMovimiento());
+        holder.tvmonto.setText("Bs." + monto);
     }
 
     @Override
