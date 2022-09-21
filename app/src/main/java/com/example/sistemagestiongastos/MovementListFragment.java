@@ -36,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import models.ExpenseModel;
 import models.IncomeModel;
 import models.MovementModel;
+import models.TransferModel;
 import newadapter.MovementAdapter;
 import newadapter.SpinnerNewAdapter;
 
@@ -292,7 +294,7 @@ public class MovementListFragment extends Fragment {
 
     private void alertaEdicion(int position, Context ctx) {
 
-        Dialog dialog = new Dialog(ctx,R.style.Dialog);
+        Dialog dialog = new Dialog(ctx, R.style.Dialog);
         int tipo = lista.get(position).getTipoMovimiento();
         LayoutInflater inflater = this.getLayoutInflater();
         View view;
@@ -305,7 +307,6 @@ public class MovementListFragment extends Fragment {
             Window window = dialog.getWindow();
             window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             dialog.show();
-
 
             Spinner spinnerFact = view.findViewById(R.id.spfuenteingresos);
             SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
@@ -334,6 +335,7 @@ public class MovementListFragment extends Fragment {
                 public void onClick(View v) {
                     showDatePickerDialog();
                 }
+
                 private void showDatePickerDialog() {
                     DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
                         @Override
@@ -354,6 +356,7 @@ public class MovementListFragment extends Fragment {
                 public void onClick(View v) {
                     showTimePickerDialog();
                 }
+
                 private void showTimePickerDialog() {
                     TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
                         @Override
@@ -378,8 +381,6 @@ public class MovementListFragment extends Fragment {
             btguardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EditText etmonto = view.findViewById(R.id.etnumingreso);
-                    EditText etdescripcion = view.findViewById(R.id.etdescingreso);
 
                     if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
                         Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
@@ -392,7 +393,7 @@ public class MovementListFragment extends Fragment {
                         String date[] = etDate.getText().toString().split(" / ");
                         String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
 
-                        IncomeModel objingreso = new IncomeModel(id,monto, idfuente, idcategoria, descripcion, fechahora);
+                        IncomeModel objingreso = new IncomeModel(id, monto, idfuente, idcategoria, descripcion, fechahora);
                         long res = controller.ModificarIngreso(objingreso);
                         if (res > 0) {
                             Toast.makeText(getContext(), "Ingreso Modificado", Toast.LENGTH_SHORT).show();
@@ -411,10 +412,245 @@ public class MovementListFragment extends Fragment {
 
                 }
             });
+        } else if (tipo == 2) {
+            {
+                view = inflater.inflate(R.layout.fragment_expense, null);
+                dialog.setContentView(view);
+                dialog.setTitle("Editar Gasto");
+                dialog.setCancelable(false);
+
+                Window window = dialog.getWindow();
+                window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                dialog.show();
+
+                Spinner spinnerFact = view.findViewById(R.id.spfuentegastos);
+                SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
+                spinnerFact.setAdapter(adapter);
+                spinnerFact.setSelection(lista.get(position).getFuenteIdMovimiento() - 1);
+
+                Spinner spinnerCat = view.findViewById(R.id.spcategoriagastos);
+                SpinnerNewAdapter adapterCat = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArrayCatExp, imageArrayCatExp);
+                spinnerCat.setAdapter(adapterCat);
+                spinnerCat.setSelection(lista.get(position).getCategoriaIdMovimiento() - 1);
+
+                EditText etmonto = view.findViewById(R.id.etnumgasto);
+                etmonto.setText(String.valueOf(lista.get(position).getMontoMovimiento()));
+
+                EditText etdescripcion = view.findViewById(R.id.etdescgasto);
+                etdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+
+                String fulldate[] = lista.get(position).getFechaHoraMovimiento().split(" ");
+
+                EditText etDate = view.findViewById(R.id.etfechagasto);
+                String date[] = fulldate[0].split("-");
+                String fecha = date[2] + " / " + date[1] + " / " + date[0];
+                etDate.setText(fecha);
+                etDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePickerDialog();
+                    }
+
+                    private void showDatePickerDialog() {
+                        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                final String selectedDate = day + " / " + (month + 1) + " / " + year;
+                                etDate.setText(selectedDate);
+                            }
+                        });
+                        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                    }
+                });
+
+                EditText etTime = view.findViewById(R.id.ethoragasto);
+                String time[] = fulldate[1].split(":");
+                etTime.setText(time[0] + ":" + time[1]);
+                etTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showTimePickerDialog();
+                    }
+
+                    private void showTimePickerDialog() {
+                        TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                String time = (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
+                                etTime.setText(time);
+                            }
+                        });
+                        newFragment.show(getChildFragmentManager(), "timePicker");
+                    }
+                });
+
+                Button btcancelar = view.findViewById(R.id.btcancelargasto);
+                btcancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button btguardar = view.findViewById(R.id.btguardargasto);
+                btguardar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
+                            Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int id = lista.get(position).getIdMovimiento();
+                            Double monto = Double.parseDouble(etmonto.getText().toString());
+                            int idfuente = spinnerFact.getSelectedItemPosition() + 1;
+                            int idcategoria = spinnerCat.getSelectedItemPosition() + 1;
+                            String descripcion = etdescripcion.getText().toString();
+                            String date[] = etDate.getText().toString().split(" / ");
+                            String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
+
+                            ExpenseModel objgasto = new ExpenseModel(id, monto, idfuente, idcategoria, descripcion, fechahora);
+                            long res = controller.ModificarGasto(objgasto);
+                            if (res > 0) {
+                                Toast.makeText(getContext(), "Gasto Modificado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                            }
+                            lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                            adaptador.setLista(lista);
+                            adaptador.notifyDataSetChanged();
+                            rvmovimiento.setAdapter(adaptador);
+                            balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                            tvbalance.setText(balance);
+                            dialog.dismiss();
+                        }
+
+
+                    }
+                });
+            }
+
+
+        } else {
+            {
+                view = inflater.inflate(R.layout.fragment_transfer, null);
+                dialog.setContentView(view);
+                dialog.setTitle("Editar Transferencia");
+                dialog.setCancelable(false);
+
+                Window window = dialog.getWindow();
+                window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                dialog.show();
+
+                Spinner spinnerOrg = view.findViewById(R.id.spfuenteorigen);
+                SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
+                spinnerOrg.setAdapter(adapter);
+                spinnerOrg.setSelection(lista.get(position).getFuenteIdMovimiento() - 1);
+
+                Spinner spinnerDest = view.findViewById(R.id.spfuentedestino);
+                SpinnerNewAdapter adapterCat = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);
+                spinnerDest.setAdapter(adapterCat);
+                spinnerDest.setSelection(lista.get(position).getCategoriaIdMovimiento() - 1);
+
+                EditText etmonto = view.findViewById(R.id.etnumtransfer);
+                etmonto.setText(String.valueOf(lista.get(position).getMontoMovimiento()));
+
+                EditText etdescripcion = view.findViewById(R.id.etdesctransfer);
+                etdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+
+                String fulldate[] = lista.get(position).getFechaHoraMovimiento().split(" ");
+
+                EditText etDate = view.findViewById(R.id.etfechatransfer);
+                String date[] = fulldate[0].split("-");
+                String fecha = date[2] + " / " + date[1] + " / " + date[0];
+                etDate.setText(fecha);
+                etDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDatePickerDialog();
+                    }
+
+                    private void showDatePickerDialog() {
+                        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                final String selectedDate = day + " / " + (month + 1) + " / " + year;
+                                etDate.setText(selectedDate);
+                            }
+                        });
+                        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                    }
+                });
+
+                EditText etTime = view.findViewById(R.id.ethoratransfer);
+                String time[] = fulldate[1].split(":");
+                etTime.setText(time[0] + ":" + time[1]);
+                etTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showTimePickerDialog();
+                    }
+
+                    private void showTimePickerDialog() {
+                        TimePickerFragment newFragment = TimePickerFragment.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                String time = (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
+                                etTime.setText(time);
+                            }
+                        });
+                        newFragment.show(getChildFragmentManager(), "timePicker");
+                    }
+                });
+
+                Button btcancelar = view.findViewById(R.id.btcancelartransferencia);
+                btcancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button btguardar = view.findViewById(R.id.btguardartransferencia);
+                btguardar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
+                            Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+                        } else if (spinnerOrg.getSelectedItemPosition() == spinnerDest.getSelectedItemPosition()) {
+                            Toast.makeText(getContext(), "La cuenta de origen y la cuenta de destino deben ser diferentes.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int id = lista.get(position).getIdMovimiento();
+                            Double monto = Double.parseDouble(etmonto.getText().toString());
+                            int idfuenteorigen = spinnerOrg.getSelectedItemPosition() + 1;
+                            int idfuentedestino= spinnerDest.getSelectedItemPosition() + 1;
+                            String descripcion = etdescripcion.getText().toString();
+                            String date[] = etDate.getText().toString().split(" / ");
+                            String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
+
+                            TransferModel objtransfer= new TransferModel(id, monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
+                            long res = controller.ModificarTransferencia(objtransfer);
+                            if (res > 0) {
+                                Toast.makeText(getContext(), "Transferencia Modificada", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                            }
+                            lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                            adaptador.setLista(lista);
+                            adaptador.notifyDataSetChanged();
+                            rvmovimiento.setAdapter(adaptador);
+                            balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                            tvbalance.setText(balance);
+                            dialog.dismiss();
+                        }
+
+
+                    }
+                });
+            }
+
 
         }
 
+
     }
-
-
 }

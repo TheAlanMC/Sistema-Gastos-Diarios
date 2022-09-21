@@ -21,36 +21,36 @@ public class Controller {
     }
 
 
-    public long altaIngreso(IncomeModel objProd) {
+    public long altaIngreso(IncomeModel obTran) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
-        valoresParaInsertar.put("monto", objProd.getMontoIngreso());
-        valoresParaInsertar.put("fuente_id", objProd.getFuenteIdIngreso());
-        valoresParaInsertar.put("categoria_ingresos_id", objProd.getCategoriaIdIngreso());
-        valoresParaInsertar.put("descripcion", objProd.getDescripcionIngreso());
-        valoresParaInsertar.put("fecha_hora", objProd.getFechaHoraIngreso());
+        valoresParaInsertar.put("monto", obTran.getMontoIngreso());
+        valoresParaInsertar.put("fuente_id", obTran.getFuenteIdIngreso());
+        valoresParaInsertar.put("categoria_ingresos_id", obTran.getCategoriaIdIngreso());
+        valoresParaInsertar.put("descripcion", obTran.getDescripcionIngreso());
+        valoresParaInsertar.put("fecha_hora", obTran.getFechaHoraIngreso());
         return sql.insert("ingresos", null, valoresParaInsertar);
     }
 
-    public long altaGasto(ExpenseModel objProd) {
+    public long altaGasto(ExpenseModel obTran) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
-        valoresParaInsertar.put("monto", objProd.getMontoGasto());
-        valoresParaInsertar.put("fuente_id", objProd.getFuenteIdGasto());
-        valoresParaInsertar.put("categoria_gastos_id", objProd.getCategoriaIdGasto());
-        valoresParaInsertar.put("descripcion", objProd.getDescripcionGasto());
-        valoresParaInsertar.put("fecha_hora", objProd.getFechaHoraGasto());
+        valoresParaInsertar.put("monto", obTran.getMontoGasto());
+        valoresParaInsertar.put("fuente_id", obTran.getFuenteIdGasto());
+        valoresParaInsertar.put("categoria_gastos_id", obTran.getCategoriaIdGasto());
+        valoresParaInsertar.put("descripcion", obTran.getDescripcionGasto());
+        valoresParaInsertar.put("fecha_hora", obTran.getFechaHoraGasto());
         return sql.insert("gastos", null, valoresParaInsertar);
     }
 
-    public long altaTransferencia(TransferModel objProd) {
+    public long altaTransferencia(TransferModel obTran) {
         SQLiteDatabase sql = helper.getWritableDatabase();
         ContentValues valoresParaInsertar = new ContentValues();
-        valoresParaInsertar.put("monto", objProd.getMontoTransferencia());
-        valoresParaInsertar.put("fuente_id_origen", objProd.getCuentaOrigenTransferencia());
-        valoresParaInsertar.put("fuente_id_destino", objProd.getCuentaDestinoTransferencia());
-        valoresParaInsertar.put("descripcion", objProd.getDescripcionTransferencia());
-        valoresParaInsertar.put("fecha_hora", objProd.getFechaHoraTransferencia());
+        valoresParaInsertar.put("monto", obTran.getMontoTransferencia());
+        valoresParaInsertar.put("fuente_id_origen", obTran.getCuentaOrigenTransferencia());
+        valoresParaInsertar.put("fuente_id_destino", obTran.getCuentaDestinoTransferencia());
+        valoresParaInsertar.put("descripcion", obTran.getDescripcionTransferencia());
+        valoresParaInsertar.put("fecha_hora", obTran.getFechaHoraTransferencia());
         return sql.insert("transferencias", null, valoresParaInsertar);
     }
 
@@ -137,37 +137,37 @@ public class Controller {
         return baseDeDatos.delete("transferencias", "id = ?", new String[]{String.valueOf(id)});
     }
 
-    public int ModificarIngreso(IncomeModel objProd) {
+    public int ModificarIngreso(IncomeModel obTran) {
         SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
-        valoresParaActualizar.put("monto", objProd.getMontoIngreso());
-        valoresParaActualizar.put("fuente_id", objProd.getFuenteIdIngreso());
-        valoresParaActualizar.put("categoria_ingresos_id", objProd.getCategoriaIdIngreso());
-        valoresParaActualizar.put("descripcion", objProd.getDescripcionIngreso());
-        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraIngreso());
-        return baseDeDatos.update("ingresos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(objProd.getIdIngreso())});
+        valoresParaActualizar.put("monto", obTran.getMontoIngreso());
+        valoresParaActualizar.put("fuente_id", obTran.getFuenteIdIngreso());
+        valoresParaActualizar.put("categoria_ingresos_id", obTran.getCategoriaIdIngreso());
+        valoresParaActualizar.put("descripcion", obTran.getDescripcionIngreso());
+        valoresParaActualizar.put("fecha_hora", obTran.getFechaHoraIngreso());
+        return baseDeDatos.update("ingresos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(obTran.getIdIngreso())});
     }
 
-    public int ModificarGasto(ExpenseModel objProd) {
+    public int ModificarGasto(ExpenseModel obTran) {
         SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
-        valoresParaActualizar.put("monto", objProd.getMontoGasto());
-        valoresParaActualizar.put("fuente_id", objProd.getFuenteIdGasto());
-        valoresParaActualizar.put("categoria_gastos_id", objProd.getCategoriaIdGasto());
-        valoresParaActualizar.put("descripcion", objProd.getDescripcionGasto());
-        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraGasto());
-        return baseDeDatos.update("gastos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(objProd.getIdGasto())});
+        valoresParaActualizar.put("monto", obTran.getMontoGasto());
+        valoresParaActualizar.put("fuente_id", obTran.getFuenteIdGasto());
+        valoresParaActualizar.put("categoria_gastos_id", obTran.getCategoriaIdGasto());
+        valoresParaActualizar.put("descripcion", obTran.getDescripcionGasto());
+        valoresParaActualizar.put("fecha_hora", obTran.getFechaHoraGasto());
+        return baseDeDatos.update("gastos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(obTran.getIdGasto())});
     }
 
-    public int ModificarTransferencia(TransferModel objProd, int id) {
+    public int ModificarTransferencia(TransferModel obTran) {
         SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
         ContentValues valoresParaActualizar = new ContentValues();
-        valoresParaActualizar.put("monto", objProd.getMontoTransferencia());
-        valoresParaActualizar.put("fuente_id_origen", objProd.getCuentaDestinoTransferencia());
-        valoresParaActualizar.put("fuente_id_destino", objProd.getCuentaDestinoTransferencia());
-        valoresParaActualizar.put("descripcion", objProd.getDescripcionTransferencia());
-        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraTransferencia());
-        return baseDeDatos.update("transferencias", valoresParaActualizar, "id = ?", new String[]{String.valueOf(id)});
+        valoresParaActualizar.put("monto", obTran.getMontoTransferencia());
+        valoresParaActualizar.put("fuente_id_origen", obTran.getCuentaOrigenTransferencia());
+        valoresParaActualizar.put("fuente_id_destino", obTran.getCuentaDestinoTransferencia());
+        valoresParaActualizar.put("descripcion", obTran.getDescripcionTransferencia());
+        valoresParaActualizar.put("fecha_hora", obTran.getFechaHoraTransferencia());
+        return baseDeDatos.update("transferencias", valoresParaActualizar, "id = ?", new String[]{String.valueOf(obTran.getIdTransferencia())});
     }
 
     public String ObtenerBalance(int fuenteId, int mes,int anio){

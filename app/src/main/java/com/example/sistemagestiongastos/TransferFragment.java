@@ -69,7 +69,7 @@ public class TransferFragment extends Fragment {
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        etDate = view.findViewById(R.id.etfechaingreso);
+        etDate = view.findViewById(R.id.etfechatransfer);
         etDate.setText(day + " / " + (month + 1) + " / " + year);
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class TransferFragment extends Fragment {
             }
         });
 
-        etTime = view.findViewById(R.id.ethoraingreso);
+        etTime = view.findViewById(R.id.ethoratransfer);
         etTime.setText(((hour < 10) ? "0" + hour : hour) + ":" + ((minute < 10) ? "0" + minute : minute));
         etTime.setOnClickListener(new View.OnClickListener() {
             @Override
