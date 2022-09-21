@@ -115,27 +115,14 @@ public class MovementListFragment extends Fragment {
         adaptador = new MovementAdapter(lista);
         rvmovimiento = view.findViewById(R.id.rvDataMovimientos);
         rvmovimiento.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
-
-        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-        adaptador.setLista(lista);
-        adaptador.notifyDataSetChanged();
-        rvmovimiento.setAdapter(adaptador);
-
-        balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
         tvbalance = view.findViewById(R.id.tvbalance);
-        tvbalance.setText(balance);
+
+        updateList();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lista.clear();
-                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition()+1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                adaptador.setLista(lista);
-                adaptador.notifyDataSetChanged();
-                rvmovimiento.setAdapter(adaptador);
-
-                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition()+1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                tvbalance.setText(balance);
+                updateList();
             }
 
             @Override
@@ -146,14 +133,7 @@ public class MovementListFragment extends Fragment {
         spmes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lista.clear();
-                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                adaptador.setLista(lista);
-                adaptador.notifyDataSetChanged();
-                rvmovimiento.setAdapter(adaptador);
-
-                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                tvbalance.setText(balance);
+                updateList();
             }
 
             @Override
@@ -164,14 +144,7 @@ public class MovementListFragment extends Fragment {
         spanio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lista.clear();
-                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                adaptador.setLista(lista);
-                adaptador.notifyDataSetChanged();
-                rvmovimiento.setAdapter(adaptador);
-
-                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                tvbalance.setText(balance);
+                updateList();
             }
 
             @Override
@@ -273,12 +246,7 @@ public class MovementListFragment extends Fragment {
                 }
                 if (res > 0) {
                     Toast.makeText(ctx, "Movimiento Eliminado", Toast.LENGTH_SHORT).show();
-                    lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                    adaptador.setLista(lista);
-                    adaptador.notifyDataSetChanged();
-                    rvmovimiento.setAdapter(adaptador);
-                    balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                    tvbalance.setText(balance);
+                    updateList();
 
                 } else {
                     Toast.makeText(ctx, "Failure", Toast.LENGTH_SHORT).show();
@@ -402,12 +370,7 @@ public class MovementListFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                         }
-                        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                        adaptador.setLista(lista);
-                        adaptador.notifyDataSetChanged();
-                        rvmovimiento.setAdapter(adaptador);
-                        balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                        tvbalance.setText(balance);
+                        updateList();
                         dialog.dismiss();
                     }
 
@@ -517,12 +480,7 @@ public class MovementListFragment extends Fragment {
                             } else {
                                 Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                             }
-                            lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                            adaptador.setLista(lista);
-                            adaptador.notifyDataSetChanged();
-                            rvmovimiento.setAdapter(adaptador);
-                            balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                            tvbalance.setText(balance);
+                            updateList();
                             dialog.dismiss();
                         }
 
@@ -636,12 +594,7 @@ public class MovementListFragment extends Fragment {
                             } else {
                                 Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                             }
-                            lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                            adaptador.setLista(lista);
-                            adaptador.notifyDataSetChanged();
-                            rvmovimiento.setAdapter(adaptador);
-                            balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
-                            tvbalance.setText(balance);
+                            updateList();
                             dialog.dismiss();
                         }
 
@@ -654,5 +607,14 @@ public class MovementListFragment extends Fragment {
         }
 
 
+    }
+
+    void updateList(){
+        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+        adaptador.setLista(lista);
+        adaptador.notifyDataSetChanged();
+        rvmovimiento.setAdapter(adaptador);
+        balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+        tvbalance.setText(balance);
     }
 }

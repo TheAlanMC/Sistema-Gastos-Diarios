@@ -114,14 +114,13 @@ public class HomeFragment extends Fragment {
                 tvingreso.setText("Bs. " + ingresos);
                 tvgasto.setText("Bs. " + gastos);
                 tvbalanceanterior.setText("Bs. " + balanceanterior);
-                Log.d ("Balance anterior", month==0 ? "12":month+"");
-
                 tvbalanceactual.setText("Bs. " + balanceactual);
-                Log.d ("Balance actual", balanceactual);
 
                 if (balanceanterior.charAt(0) != '-') {
+                    tvsignobalanceanterior.setText("+");
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
                 } else {
+                    tvsignobalanceanterior.setText("—");
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
                 }
 
