@@ -83,8 +83,8 @@ public class Helper extends SQLiteOpenHelper {
 
     public void addSetting(SQLiteDatabase db) {
         db.execSQL("INSERT INTO fuente (categoria) VALUES ('Tarjeta'), ('Efectivo'),('Ahorros')");
-        db.execSQL("INSERT INTO categoria_gastos (categoria) VALUES ('Prestamo'), ('Salario'),('Ventas')");
-        db.execSQL("INSERT INTO fuente (categoria) VALUES ('Otros'),('Ropa'), ('Bebida'),('Educacion')," +
+        db.execSQL("INSERT INTO categoria_ingresos (categoria) VALUES ('Prestamo'), ('Salario'),('Ventas')");
+        db.execSQL("INSERT INTO categoria_gastos (categoria) VALUES ('Otros'),('Ropa'), ('Bebida'),('Educacion')," +
                 "('Comida'), ('Combustible'),('Diversion'),('Viaje'), ('Hotel'),('Mercaderia')," +
                 "('Personal'), ('Mascotas'),('Restaurante'),('Propina'), ('Transporte')");
     }

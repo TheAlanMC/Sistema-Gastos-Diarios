@@ -79,7 +79,7 @@ public class TransferFragment extends Fragment {
         });
 
         etTime = view.findViewById(R.id.ethoraingreso);
-        etTime.setText(hour + ":" + minute);
+        etTime.setText(((hour < 10) ? "0" + hour : hour) + ":" + ((minute < 10) ? "0" + minute : minute));
         etTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +128,7 @@ public class TransferFragment extends Fragment {
 
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                String time = hourOfDay + ":" + minute;
+                String time = (hourOfDay<10?"0"+hourOfDay:hourOfDay) + ":" + (minute<10?"0"+minute:minute);
                 etTime.setText(time);
             }
         });

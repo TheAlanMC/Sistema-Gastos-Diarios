@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import models.ExpenseModel;
 
+import models.IncomeModel;
 import newadapter.SpinnerNewAdapter;
 
 public class ExpenseFragment extends Fragment {
@@ -85,7 +86,7 @@ public class ExpenseFragment extends Fragment {
         });
 
         etTime = view.findViewById(R.id.ethoragasto);
-        etTime.setText(hour + ":" + minute);
+        etTime.setText(((hour < 10) ? "0" + hour : hour) + ":" + ((minute < 10) ? "0" + minute : minute));
         etTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,20 +110,20 @@ public class ExpenseFragment extends Fragment {
                 controller = new Controller(getContext());
                 EditText etmonto = view.findViewById(R.id.etnumgasto);
                 EditText etdescripcion = view.findViewById(R.id.etdescgasto);
+
                 Double monto = Double.parseDouble(etmonto.getText().toString());
-                int idfuente = spinner.getSelectedItemPosition() +1;
-                int idcategoria = spinnerCat.getSelectedItemPosition() +1;
+                int idfuente = spinner.getSelectedItemPosition() + 1;
+                int idcategoria = spinnerCat.getSelectedItemPosition() + 1;
                 String descripcion = etdescripcion.getText().toString();
                 String date[] = etDate.getText().toString().split(" / ");
-                String fechahora = (date[2]+"-"+date[1]+"-"+date[0])+" "+etTime.getText().toString()+":00";
+                String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
 
-                ExpenseModel objgasto= new ExpenseModel(monto, idfuente, idcategoria, descripcion, fechahora);
+                ExpenseModel objgasto = new ExpenseModel(monto, idfuente, idcategoria, descripcion, fechahora);
                 long res = controller.altaGasto(objgasto);
-                if (res>0){
-                    Toast.makeText(getContext(),"Success",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(getContext(),"Failure",Toast.LENGTH_SHORT).show();
+                if (res > 0) {
+                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -134,7 +135,7 @@ public class ExpenseFragment extends Fragment {
 
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                String time = hourOfDay + ":" + minute;
+                String time = (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
                 etTime.setText(time);
             }
         });

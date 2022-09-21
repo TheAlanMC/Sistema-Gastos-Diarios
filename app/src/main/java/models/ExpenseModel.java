@@ -3,24 +3,24 @@ package models;
 public class ExpenseModel {
     private int idGasto;
     private double montoGasto;
-    private int categoriaIdGasto;
     private int fuenteIdGasto;
+    private int categoriaIdGasto;
     private String descripcionGasto;
     private String fechaHoraGasto;
 
-    public ExpenseModel(int idGasto, double montoGasto, int categoriaIdGasto, int fuenteIdGasto, String descripcionGasto, String fechaHoraGasto) {
+    public ExpenseModel(int idGasto, double montoGasto, int fuenteIdGasto, int categoriaIdGasto, String descripcionGasto, String fechaHoraGasto) {
         this.idGasto = idGasto;
         this.montoGasto = montoGasto;
-        this.categoriaIdGasto = categoriaIdGasto;
         this.fuenteIdGasto = fuenteIdGasto;
+        this.categoriaIdGasto = categoriaIdGasto;
         this.descripcionGasto = descripcionGasto;
         this.fechaHoraGasto = fechaHoraGasto;
     }
 
-    public ExpenseModel(double montoGasto, int categoriaIdGasto, int fuenteIdGasto, String descripcionGasto, String fechaHoraGasto) {
+    public ExpenseModel(double montoGasto, int fuenteIdGasto, int categoriaIdGasto, String descripcionGasto, String fechaHoraGasto) {
         this.montoGasto = montoGasto;
-        this.categoriaIdGasto = categoriaIdGasto;
         this.fuenteIdGasto = fuenteIdGasto;
+        this.categoriaIdGasto = categoriaIdGasto;
         this.descripcionGasto = descripcionGasto;
         this.fechaHoraGasto = fechaHoraGasto;
     }
@@ -41,20 +41,20 @@ public class ExpenseModel {
         this.montoGasto = montoGasto;
     }
 
-    public int getCategoriaIdGasto() {
-        return categoriaIdGasto;
-    }
-
-    public void setCategoriaIdGasto(int categoriaIdGasto) {
-        this.categoriaIdGasto = categoriaIdGasto;
-    }
-
     public int getFuenteIdGasto() {
         return fuenteIdGasto;
     }
 
     public void setFuenteIdGasto(int fuenteIdGasto) {
         this.fuenteIdGasto = fuenteIdGasto;
+    }
+
+    public int getCategoriaIdGasto() {
+        return categoriaIdGasto;
+    }
+
+    public void setCategoriaIdGasto(int categoriaIdGasto) {
+        this.categoriaIdGasto = categoriaIdGasto;
     }
 
     public String getDescripcionGasto() {

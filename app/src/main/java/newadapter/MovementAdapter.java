@@ -1,5 +1,7 @@
 package newadapter;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,21 +36,21 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
     @NonNull
     @Override
     public MovementAdapter.ViewDataHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_movimiento,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_movimiento, parent, false);
         return new ViewDataHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovementAdapter.ViewDataHolder holder, int position) {
-        String[] fechahora=lista.get(position).getFechaHoraMovimiento().split(" ");
+        String[] fechahora = lista.get(position).getFechaHoraMovimiento().split(" ");
         String[] fecha = fechahora[0].split("-");
         String[] hora = fechahora[1].split(":");
-        String[] mes = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        holder.tvfechahora.setText(fecha[2]+" de "+mes[Integer.parseInt(fecha[1])-1]+" del "+fecha[0]+" a las "+hora[0]+":"+hora[1]);
+        String[] mes = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        holder.tvfechahora.setText(fecha[2] + " de " + mes[Integer.parseInt(fecha[1]) - 1] + " del " + fecha[0] + " a las " + hora[0] + ":" + hora[1]);
 
         int tipo = lista.get(position).getTipoMovimiento();
 
-
+        String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
         String[] textArrayCatInc = {"Prestamo", "Salario", "Ventas"};
         Integer[] imageArrayCatInc = {R.drawable.loan, R.drawable.salary, R.drawable.sales};
 
@@ -58,27 +60,39 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
                 R.drawable.fuel, R.drawable.fun, R.drawable.healthcare, R.drawable.road, R.drawable.hotel, R.drawable.box,
                 R.drawable.hands, R.drawable.paw, R.drawable.restaurant, R.drawable.tip, R.drawable.taxi};
 
-        if (tipo==1){
-            holder.tvcategoria.setText(textArrayCatInc[lista.get(position).getRazonMovimiento()-1]);
-            holder.ivimagen.setImageResource(imageArrayCatInc[lista.get(position).getRazonMovimiento()-1]);
+        String descripcion = "";
+        if (tipo == 1) {
+            holder.tvcategoria.setText(textArrayCatInc[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            holder.ivimagen.setImageResource(imageArrayCatInc[lista.get(position).getCategoriaIdMovimiento() - 1]);
             holder.tvingresogasto.setText("+");
-            holder.tvingresogasto.setTextColor(Integer.parseInt("#4CAF50"));
-        }
-        else if (tipo==2){
-            holder.tvcategoria.setText(textArrayCatExp[lista.get(position).getRazonMovimiento()-1]);
-            holder.ivimagen.setImageResource(imageArrayCatExp[lista.get(position).getRazonMovimiento()-1]);
+            holder.tvingresogasto.setTextColor(Color.parseColor("#4CAF50"));
+            holder.tvdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+        } else if (tipo == 2) {
+            holder.tvcategoria.setText(textArrayCatExp[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            holder.ivimagen.setImageResource(imageArrayCatExp[lista.get(position).getCategoriaIdMovimiento() - 1]);
             holder.tvingresogasto.setText("-");
-            holder.tvingresogasto.setTextColor(Integer.parseInt("#F44336"));
-        }
-        else {
+            holder.tvingresogasto.setTextColor(Color.parseColor("#F44336"));
+            holder.tvdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+        } else if (tipo == 3) {
             holder.tvcategoria.setText("Transferencia");
             holder.ivimagen.setImageResource(R.drawable.left_right);
             holder.tvingresogasto.setText("-");
-            holder.tvingresogasto.setTextColor(Integer.parseInt("#F44336"));
+            holder.tvingresogasto.setTextColor(Color.parseColor("#F44336"));
+            descripcion = lista.get(position).getDescripcionMovimiento() + (" (Transferencia de ") +
+                    textArray[lista.get(position).getFuenteIdMovimiento() - 1] + (" a ") +
+                    textArray[lista.get(position).getCategoriaIdMovimiento() - 1] + (")");
+            holder.tvdescripcion.setText(descripcion);
+        } else if (tipo == 4) {
+            holder.tvcategoria.setText("Transferencia");
+            holder.ivimagen.setImageResource(R.drawable.left_right);
+            holder.tvingresogasto.setText("+");
+            holder.tvingresogasto.setTextColor(Color.parseColor("#4CAF50"));
+            descripcion= lista.get(position).getDescripcionMovimiento() + (" (Transferencia de ") +
+                    textArray[lista.get(position).getFuenteIdMovimiento() - 1] + (" a ") +
+                    textArray[lista.get(position).getCategoriaIdMovimiento() - 1] + (")");
+            holder.tvdescripcion.setText(descripcion);
         }
-
-        holder.tvmonto.setText("Bs."+lista.get(position).getMontoMovimiento());
-        holder.tvdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+        holder.tvmonto.setText("Bs." + lista.get(position).getMontoMovimiento());
     }
 
     @Override

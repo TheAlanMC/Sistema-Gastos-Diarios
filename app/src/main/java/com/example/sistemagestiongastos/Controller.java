@@ -2,10 +2,15 @@ package com.example.sistemagestiongastos;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import models.ExpenseModel;
 import models.IncomeModel;
+import models.MovementModel;
 import models.TransferModel;
 
 public class Controller {
@@ -47,6 +52,37 @@ public class Controller {
         valoresParaInsertar.put("descripcion", objProd.getDescripcionTransferencia());
         valoresParaInsertar.put("fecha_hora", objProd.getFechaHoraTransferencia());
         return sql.insert("transferencias", null, valoresParaInsertar);
+    }
+
+    public ArrayList<MovementModel> obtenerMovimientos(int fuenteId) {
+        ArrayList<MovementModel> listaMovimientos = new ArrayList<>();
+        SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
+        String q = "SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId +
+                " UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
+                " UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId + "" +
+                " UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId + "" +
+                " ORDER BY fecha_hora DESC";
+        Cursor cursor = baseDeDatos.rawQuery(q, null);
+        if (cursor == null) {
+            return listaMovimientos;
+        }
+        if (!cursor.moveToFirst())
+            return listaMovimientos;
+        do {
+            int idMovimiento = cursor.getInt(0);
+            double montoMovimiento = cursor.getDouble(1);
+            int fuenteIdMovimiento = cursor.getInt(2);
+            int categoriaId = cursor.getInt(3);
+            String descripcionMovimiento = cursor.getString(4);
+            String fechaHoraMovimiento = cursor.getString(5);
+            int tipoMovimiento = cursor.getInt(6);
+
+            MovementModel objMov = new MovementModel(tipoMovimiento, idMovimiento, fechaHoraMovimiento, fuenteIdMovimiento, categoriaId, montoMovimiento, descripcionMovimiento);
+            listaMovimientos.add(objMov);
+
+        } while (cursor.moveToNext());
+        cursor.close();
+        return listaMovimientos;
     }
 
 }
