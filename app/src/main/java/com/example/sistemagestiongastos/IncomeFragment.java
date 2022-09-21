@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class IncomeFragment extends Fragment {
         btcancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medio.home();
+                medio.home(spinner.getSelectedItemPosition());
             }
         });
 
@@ -123,6 +124,7 @@ public class IncomeFragment extends Fragment {
                 }
             }
         });
+
 
         return view;
     }

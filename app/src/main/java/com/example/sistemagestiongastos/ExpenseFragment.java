@@ -99,7 +99,7 @@ public class ExpenseFragment extends Fragment {
         btcancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medio.home();
+                medio.home(spinner.getSelectedItemPosition());
             }
         });
 
@@ -127,6 +127,7 @@ public class ExpenseFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 

@@ -9,5 +9,5 @@ public interface MedioTransporte {
 
     void movimientos(int fuenteid);
 
-    void home();
+    void home(int fuenteid);
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -40,27 +41,38 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
             case R.id.menuHome:
                 this.setTitle("Home");
                 homeF = new HomeFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, homeF).commit();
                 break;
             case R.id.menuIngresos:
                 this.setTitle("Ingresos");
                 ingresosF = new IncomeFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, ingresosF).commit();
                 break;
             case R.id.menuGastos:
                 this.setTitle("Gastos");
                 gastosF = new ExpenseFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, gastosF).commit();
                 break;
             case R.id.menuTrasferencias:
                 this.setTitle("Transferencias");
                 transferenciasF = new TransferFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, transferenciasF).commit();
                 break;
             case R.id.menuListaMovimientos:
                 this.setTitle("Lista de Movimientos");
                 movimientosF = new MovementListFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, movimientosF).commit();
+                break;
+            case android.R.id.home:
+                this.setTitle("Home");
+                homeF = new HomeFragment();
+                this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, homeF).commit();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -69,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     @Override
     public void ingresos(int fuenteid) {
         this.setTitle("Ingresos");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bolsa = new Bundle();
         bolsa.putInt("index", fuenteid);
         ingresosF = new IncomeFragment();
@@ -79,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     @Override
     public void gastos(int fuenteid) {
         this.setTitle("Gastos");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bolsa = new Bundle();
         bolsa.putInt("index", fuenteid);
         gastosF = new ExpenseFragment();
@@ -89,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     @Override
     public void transfer(int fuenteid) {
         this.setTitle("Transferencias");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bolsa = new Bundle();
         bolsa.putInt("index", fuenteid);
         transferenciasF = new TransferFragment();
@@ -100,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     @Override
     public void movimientos(int fuenteid) {
         this.setTitle("Lista de Movimientos");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bolsa = new Bundle();
         bolsa.putInt("index", fuenteid);
         movimientosF = new MovementListFragment();
@@ -108,10 +124,26 @@ public class MainActivity extends AppCompatActivity implements MedioTransporte {
     }
 
     @Override
-    public void home() {
+    public void home(int fuenteid) {
         this.setTitle("Home");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        Bundle bolsa = new Bundle();
+        bolsa.putInt("index", fuenteid);
         homeF = new HomeFragment();
+        homeF.setArguments(bolsa);
         getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, homeF).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.setTitle("Home");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        if (homeF.isVisible()) {
+            super.onBackPressed();
+        } else {
+            homeF = new HomeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, homeF).commit();
+        }
     }
 
 }

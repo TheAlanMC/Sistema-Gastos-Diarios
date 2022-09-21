@@ -53,6 +53,14 @@ public class HomeFragment extends Fragment {
 
         medio = (MedioTransporte) getActivity();
 
+        int index;
+        if (getArguments() != null) {
+            index = getArguments().getInt("index");
+        } else {
+            index = 0;
+        }
+        spinner.setSelection(index);
+
         tvingresos1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
