@@ -106,7 +106,7 @@ public class TransferFragment extends Fragment {
                 if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
                 } else if (spinner.getSelectedItemPosition() == spinnerDest.getSelectedItemPosition()) {
-                    Toast.makeText(getContext(), "La cuenta de origen y la cuenta de destino deben ser diferentes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "La cuenta de origen y la cuenta de destino deben ser diferentes.", Toast.LENGTH_SHORT).show();
                 } else {
                     Double monto = Double.parseDouble(etmonto.getText().toString());
                     int idfuenteorigen = spinner.getSelectedItemPosition() + 1;
@@ -122,6 +122,10 @@ public class TransferFragment extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                     }
+                    etmonto.setText("");
+                    etdescripcion.setText("");
+                    etDate.setText(day + " / " + (month + 1) + " / " + year);
+                    etTime.setText(((hour < 10) ? "0" + hour : hour) + ":" + ((minute < 10) ? "0" + minute : minute));
                 }
 
             }

@@ -122,6 +122,22 @@ public class Controller {
         return gastos;
     }
 
+    public int EliminarIngreso(int id){
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        return baseDeDatos.delete("ingresos", "id = ?", new String[]{String.valueOf(id)});
+    }
+
+    public int EliminarGasto(int id){
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        return baseDeDatos.delete("gastos", "id = ?", new String[]{String.valueOf(id)});
+    }
+
+    public int EliminarTransferencia(int id){
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        return baseDeDatos.delete("transferencias", "id = ?", new String[]{String.valueOf(id)});
+    }
+
+
     public String ObtenerBalance(int fuenteId, int mes,int anio){
         double ingresos = ObtenerIngresos(fuenteId,mes,anio);
         double gastos = ObtenerGastos(fuenteId,mes,anio);

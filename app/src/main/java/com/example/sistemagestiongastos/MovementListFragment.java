@@ -1,6 +1,9 @@
 package com.example.sistemagestiongastos;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -168,6 +173,116 @@ public class MovementListFragment extends Fragment {
     }
 
     private void alertaBaja(int position, Context ctx) {
+        TextView tvfechahora, tvcategoria, tvmonto, tvdescripcion, tvingresogasto;
+        ImageView ivimagen;
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_movimiento, null);
+        tvfechahora = view.findViewById(R.id.tvFechaHora);
+        tvcategoria = view.findViewById(R.id.tvCategoria);
+        tvmonto = view.findViewById(R.id.tvMonto);
+        tvdescripcion = view.findViewById(R.id.tvDescripcion);
+        tvingresogasto = view.findViewById(R.id.tvIngresoGasto);
+        ivimagen = view.findViewById(R.id.ivMovimiento);
+
+        String[] fechahora = lista.get(position).getFechaHoraMovimiento().split(" ");
+        String[] fecha = fechahora[0].split("-");
+        String[] hora = fechahora[1].split(":");
+        String[] mes = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        tvfechahora.setText(fecha[2] + " de " + mes[Integer.parseInt(fecha[1]) - 1] + " del " + fecha[0] + " a las " + hora[0] + ":" + hora[1]);
+
+        int tipo = lista.get(position).getTipoMovimiento();
+
+        String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
+        String[] textArrayCatInc = {"Prestamo", "Salario", "Ventas"};
+        Integer[] imageArrayCatInc = {R.drawable.loan, R.drawable.salary, R.drawable.sales};
+
+        String[] textArrayCatExp = {"Otros", "Ropa", "Bebidas", "Educacion", "Comida", "Combustible", "Diversion", "Salud", "Viaje", "Hotel",
+                "Mercaderia", "Personal", "Mascotas", "Restaurante", "Propinas", "Transporte"};
+        Integer[] imageArrayCatExp = {R.drawable.question, R.drawable.clothes, R.drawable.drink, R.drawable.education, R.drawable.food,
+                R.drawable.fuel, R.drawable.fun, R.drawable.healthcare, R.drawable.road, R.drawable.hotel, R.drawable.box,
+                R.drawable.hands, R.drawable.paw, R.drawable.restaurant, R.drawable.tip, R.drawable.taxi};
+
+        String descripcion = "";
+        if (tipo == 1) {
+           tvcategoria.setText(textArrayCatInc[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            ivimagen.setImageResource(imageArrayCatInc[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            tvingresogasto.setText("+");
+            tvingresogasto.setTextColor(Color.parseColor("#4CAF50"));
+            tvdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+        } else if (tipo == 2) {
+            tvcategoria.setText(textArrayCatExp[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            ivimagen.setImageResource(imageArrayCatExp[lista.get(position).getCategoriaIdMovimiento() - 1]);
+            tvingresogasto.setText("-");
+            tvingresogasto.setTextColor(Color.parseColor("#F44336"));
+            tvdescripcion.setText(lista.get(position).getDescripcionMovimiento());
+        } else if (tipo == 3) {
+            tvcategoria.setText("Transferencia");
+            ivimagen.setImageResource(R.drawable.left_right);
+            tvingresogasto.setText("-");
+            tvingresogasto.setTextColor(Color.parseColor("#F44336"));
+            descripcion = lista.get(position).getDescripcionMovimiento() + (" (Transferencia de ") +
+                    textArray[lista.get(position).getFuenteIdMovimiento() - 1] + (" a ") +
+                    textArray[lista.get(position).getCategoriaIdMovimiento() - 1] + (")");
+            tvdescripcion.setText(descripcion);
+        } else if (tipo == 4) {
+            tvcategoria.setText("Transferencia");
+            ivimagen.setImageResource(R.drawable.left_right);
+            tvingresogasto.setText("+");
+            tvingresogasto.setTextColor(Color.parseColor("#4CAF50"));
+            descripcion= lista.get(position).getDescripcionMovimiento() + (" (Transferencia de ") +
+                    textArray[lista.get(position).getFuenteIdMovimiento() - 1] + (" a ") +
+                    textArray[lista.get(position).getCategoriaIdMovimiento() - 1] + (")");
+            tvdescripcion.setText(descripcion);
+        }
+        DecimalFormat df = new DecimalFormat("#.00");
+        String monto = df.format(lista.get(position).getMontoMovimiento());
+        tvmonto.setText("Bs." + monto);
+
+        AlertDialog.Builder alerta = new AlertDialog.Builder(ctx);
+        alerta.setView(view);
+        alerta.setTitle("Confirmar");
+        alerta.setCancelable(false);
+        alerta.setMessage("¿Desea eliminar el movimiento?");
+        alerta.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                int res;
+                int tipo = lista.get(position).getTipoMovimiento();
+                switch (tipo) {
+                    case 1:
+                        res = controller.EliminarIngreso(lista.get(position).getIdMovimiento());
+                        break;
+                    case 2:
+                        res = controller.EliminarGasto(lista.get(position).getIdMovimiento());
+                        break;
+                    default:
+                        res = controller.EliminarTransferencia(lista.get(position).getIdMovimiento());
+                        break;
+                }
+                if (res > 0) {
+                    Toast.makeText(ctx, "Movimiento Eliminado", Toast.LENGTH_SHORT).show();
+                    lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                    adaptador.setLista(lista);
+                    adaptador.notifyDataSetChanged();
+                    rvmovimiento.setAdapter(adaptador);
+                    balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                    tvbalance.setText(balance);
+
+                } else {
+                    Toast.makeText(ctx, "Failure", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+        alerta.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alerta.show();
     }
 
     private void alertaEdicion(int position, Context ctx) {

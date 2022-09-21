@@ -127,6 +127,10 @@ public class ExpenseFragment extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
                 }}
+                etmonto.setText("");
+                etdescripcion.setText("");
+                etDate.setText(day + " / " + (month + 1) + " / " + year);
+                etTime.setText(((hour < 10) ? "0" + hour : hour) + ":" + ((minute < 10) ? "0" + minute : minute));
             }
         });
 
