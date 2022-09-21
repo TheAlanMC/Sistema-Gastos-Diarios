@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class MovementListFragment extends Fragment {
     String[] anio = new String[]{"2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
 
     ArrayList<MovementModel> lista;
-    RecyclerView rvproducto;
+    RecyclerView rvmovimiento;
     MovementAdapter adaptador;
     Controller controller;
 
@@ -87,13 +88,13 @@ public class MovementListFragment extends Fragment {
         lista = new ArrayList<>();
 
         adaptador = new MovementAdapter(lista);
-        rvproducto = view.findViewById(R.id.rvDataMovimientos);
-        rvproducto.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
+        rvmovimiento = view.findViewById(R.id.rvDataMovimientos);
+        rvmovimiento.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
 
         lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
         adaptador.setLista(lista);
         adaptador.notifyDataSetChanged();
-        rvproducto.setAdapter(adaptador);
+        rvmovimiento.setAdapter(adaptador);
 
         balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
         tvbalance = view.findViewById(R.id.tvbalance);
@@ -105,7 +106,7 @@ public class MovementListFragment extends Fragment {
                 lista = controller.obtenerMovimientos(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
-                rvproducto.setAdapter(adaptador);
+                rvmovimiento.setAdapter(adaptador);
 
                 balance = controller.ObtenerBalance(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 tvbalance.setText(balance);
@@ -122,7 +123,7 @@ public class MovementListFragment extends Fragment {
                 lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
-                rvproducto.setAdapter(adaptador);
+                rvmovimiento.setAdapter(adaptador);
 
                 balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 tvbalance.setText(balance);
@@ -139,7 +140,7 @@ public class MovementListFragment extends Fragment {
                 lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
-                rvproducto.setAdapter(adaptador);
+                rvmovimiento.setAdapter(adaptador);
 
                 balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 tvbalance.setText(balance);
@@ -149,9 +150,27 @@ public class MovementListFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        rvmovimiento.addOnItemTouchListener(new Toques(ctx, rvmovimiento, new Toques.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Toast.makeText(ctx, "Edicion", Toast.LENGTH_SHORT).show();
+                alertaEdicion(position, ctx);
+            }
 
+            @Override
+            public void onLongClick(View view, int position) {
+                Toast.makeText(ctx, "Eliminacion", Toast.LENGTH_SHORT).show();
+                alertaBaja(position, ctx);
+            }
+        }));
 
         return view;
+    }
+
+    private void alertaBaja(int position, Context ctx) {
+    }
+
+    private void alertaEdicion(int position, Context ctx) {
     }
 
 

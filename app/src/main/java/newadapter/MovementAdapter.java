@@ -97,6 +97,9 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
         DecimalFormat df = new DecimalFormat("#.00");
         String monto = df.format(lista.get(position).getMontoMovimiento());
         holder.tvmonto.setText("Bs." + monto);
+        holder.tvidmovimiento.setText(String.valueOf(lista.get(position).getIdMovimiento()));
+        holder.tvidtipomovimiento.setText(Integer.toString(tipo));
+
     }
 
     @Override
@@ -107,6 +110,7 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
     public class ViewDataHolder extends RecyclerView.ViewHolder {
         TextView tvfechahora, tvcategoria, tvmonto, tvdescripcion, tvingresogasto;
         ImageView ivimagen;
+        TextView tvidmovimiento,tvidtipomovimiento;
 
         public ViewDataHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,6 +120,8 @@ public class MovementAdapter extends RecyclerView.Adapter<MovementAdapter.ViewDa
             tvdescripcion = itemView.findViewById(R.id.tvDescripcion);
             tvingresogasto = itemView.findViewById(R.id.tvIngresoGasto);
             ivimagen = itemView.findViewById(R.id.ivMovimiento);
+            tvidmovimiento = itemView.findViewById(R.id.tvIdMovimiento);
+            tvidtipomovimiento = itemView.findViewById(R.id.tvIdTipoMovimiento);
         }
     }
 }
