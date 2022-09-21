@@ -53,7 +53,7 @@ public class MovementListFragment extends Fragment {
 
     Spinner spmes, spanio;
     ArrayAdapter<String> adaptermes, adapteranio;
-    String[] mes = new String[]{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    String[] mes = new String[]{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre", "Todos"};
     String[] anio = new String[]{"2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"};
 
     ArrayList<MovementModel> lista;
@@ -582,12 +582,12 @@ public class MovementListFragment extends Fragment {
                             int id = lista.get(position).getIdMovimiento();
                             Double monto = Double.parseDouble(etmonto.getText().toString());
                             int idfuenteorigen = spinnerOrg.getSelectedItemPosition() + 1;
-                            int idfuentedestino= spinnerDest.getSelectedItemPosition() + 1;
+                            int idfuentedestino = spinnerDest.getSelectedItemPosition() + 1;
                             String descripcion = etdescripcion.getText().toString();
                             String date[] = etDate.getText().toString().split(" / ");
                             String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
 
-                            TransferModel objtransfer= new TransferModel(id, monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
+                            TransferModel objtransfer = new TransferModel(id, monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
                             long res = controller.ModificarTransferencia(objtransfer);
                             if (res > 0) {
                                 Toast.makeText(getContext(), "Transferencia Modificada", Toast.LENGTH_SHORT).show();
@@ -609,12 +609,17 @@ public class MovementListFragment extends Fragment {
 
     }
 
-    void updateList(){
-        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+    void updateList() {
+        if (spmes.getSelectedItemPosition() + 1 == 13) {
+            lista = controller.obtenerMovimientosAnual(spinner.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+            balance = controller.ObtenerBalanceAnual(spinner.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+        } else {
+            lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+            balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+        }
         adaptador.setLista(lista);
         adaptador.notifyDataSetChanged();
         rvmovimiento.setAdapter(adaptador);
-        balance = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
         tvbalance.setText(balance);
     }
 }
