@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -290,15 +292,20 @@ public class MovementListFragment extends Fragment {
 
     private void alertaEdicion(int position, Context ctx) {
 
-        Dialog dialog = new Dialog(ctx);
+        Dialog dialog = new Dialog(ctx,R.style.Dialog);
         int tipo = lista.get(position).getTipoMovimiento();
         LayoutInflater inflater = this.getLayoutInflater();
         View view;
         if (tipo == 1) {
             view = inflater.inflate(R.layout.fragment_income, null);
-            dialog.setTitle("Editar Ingreso");
             dialog.setContentView(view);
+            dialog.setTitle("Editar Ingreso");
+            dialog.setCancelable(false);
+
+            Window window = dialog.getWindow();
+            window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
             dialog.show();
+
 
             Spinner spinnerFact = view.findViewById(R.id.spfuenteingresos);
             SpinnerNewAdapter adapter = new SpinnerNewAdapter(getContext(), R.layout.spinner_value_layout, textArray, imageArray);

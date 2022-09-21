@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17325227963525835" />
+        <entry key="app/src/main/res/layout/dialog_style.xml" value="0.12590579710144928" />
         <entry key="app/src/main/res/layout/fragment_expense.xml" value="0.17274569402228976" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.283355712890625" />
         <entry key="app/src/main/res/layout/fragment_income.xml" value="0.22" />
@@ -19,6 +20,8 @@
         <entry key="app/src/main/res/layout/text_add_icon.xml" value="0.17274569402228976" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.1021604938271605" />
         <entry key="app/src/main/res/menu/menu_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.161" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.161" />
       </map>
     </option>
   </component>
