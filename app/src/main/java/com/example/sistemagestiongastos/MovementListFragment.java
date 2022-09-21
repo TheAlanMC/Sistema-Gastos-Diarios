@@ -112,7 +112,6 @@ public class MovementListFragment extends Fragment {
         Context ctx = getContext();
         controller = new Controller(ctx);
         lista = new ArrayList<>();
-
         adaptador = new MovementAdapter(lista);
         rvmovimiento = view.findViewById(R.id.rvDataMovimientos);
         rvmovimiento.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
@@ -129,12 +128,13 @@ public class MovementListFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lista = controller.obtenerMovimientos(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                lista.clear();
+                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition()+1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
                 rvmovimiento.setAdapter(adaptador);
 
-                balance = controller.ObtenerBalance(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                balance = controller.ObtenerBalance(spinner.getSelectedItemPosition()+1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 tvbalance.setText(balance);
             }
 
@@ -146,6 +146,7 @@ public class MovementListFragment extends Fragment {
         spmes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista.clear();
                 lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();
@@ -163,6 +164,7 @@ public class MovementListFragment extends Fragment {
         spanio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista.clear();
                 lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
                 adaptador.setLista(lista);
                 adaptador.notifyDataSetChanged();

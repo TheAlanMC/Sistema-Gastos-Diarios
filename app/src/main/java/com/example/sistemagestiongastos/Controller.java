@@ -59,11 +59,12 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String  fechaInicio = anio+"-"+mes+"-01";
         String  fechaFin = anio+"-"+mes+"-31";
-        String q = "SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+        String q = "SELECT * FROM (" +
+                "SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
                 "UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
                 "UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
                 "UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"'" +
-                " ORDER BY fecha_hora DESC";
+                ") ORDER BY fecha_hora DESC";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
@@ -173,6 +174,52 @@ public class Controller {
     public String ObtenerBalance(int fuenteId, int mes,int anio){
         double ingresos = ObtenerIngresos(fuenteId,mes,anio);
         double gastos = ObtenerGastos(fuenteId,mes,anio);
+        double balance = ingresos - gastos;
+        if (balance ==0){
+            return "0.00";
+        }
+        else {
+            return String.format("%.2f", balance);
+        }
+    }
+
+    public double ObtenerIngresoAcumulado(int fuenteId, int mes,int anio){
+        SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
+        String  fechaInicio = "2020-01-01";
+        String  fechaFin = anio+"-"+mes+"-31";
+        String q = "SELECT SUM(monto) FROM (SELECT monto FROM ingresos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+                "UNION SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"')";
+        Cursor cursor = baseDeDatos.rawQuery(q, null);
+        if (cursor == null) {
+            return 0;
+        }
+        if (!cursor.moveToFirst())
+            return 0;
+        double ingresos = cursor.getDouble(0);
+        cursor.close();
+        return ingresos;
+    }
+
+    public double ObtenerGastoAcumulado(int fuenteId, int mes,int anio){
+        SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
+        String  fechaInicio = "2020-01-01";
+        String  fechaFin = anio+"-"+mes+"-31";
+        String q = "SELECT SUM(monto) FROM (SELECT monto FROM gastos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+                "UNION SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"')";
+        Cursor cursor = baseDeDatos.rawQuery(q, null);
+        if (cursor == null) {
+            return 0;
+        }
+        if (!cursor.moveToFirst())
+            return 0;
+        double gastos = cursor.getDouble(0);
+        cursor.close();
+        return gastos;
+    }
+
+    public String ObtenerBalanceAcumulado(int fuenteId, int mes,int anio){
+        double ingresos = ObtenerIngresoAcumulado(fuenteId,mes,anio);
+        double gastos = ObtenerGastoAcumulado(fuenteId,mes,anio);
         double balance = ingresos - gastos;
         if (balance ==0){
             return "0.00";

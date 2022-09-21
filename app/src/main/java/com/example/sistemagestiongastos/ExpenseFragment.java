@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,7 @@ public class ExpenseFragment extends Fragment {
                 controller = new Controller(getContext());
                 EditText etmonto = view.findViewById(R.id.etnumgasto);
                 EditText etdescripcion = view.findViewById(R.id.etdescgasto);
+
                 if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
                 } else {

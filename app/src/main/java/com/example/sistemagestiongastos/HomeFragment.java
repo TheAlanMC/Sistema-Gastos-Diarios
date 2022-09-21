@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     Spinner spinner;
 
     Controller controller;
-    String ingresos, balanceanterio, gastos, balanceactual;
+    String ingresos, balanceanterior, gastos, balanceactual;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -87,16 +87,16 @@ public class HomeFragment extends Fragment {
 
         ingresos = controller.ObtenerIngresosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
         gastos = controller.ObtenerGastosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
-        balanceanterio = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, (month) % 11, year);
-        balanceactual = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, month + 1, year);
+        balanceanterior = controller.ObtenerBalanceAcumulado(spinner.getSelectedItemPosition() + 1, month==0 ? 12:month, year);
+        balanceactual = controller.ObtenerBalanceAcumulado(spinner.getSelectedItemPosition() + 1, month + 1, year);
 
         tvingreso.setText("Bs. " + ingresos);
         tvgasto.setText("Bs. " + gastos);
-        tvbalanceanterior.setText("Bs. " + balanceanterio);
+        tvbalanceanterior.setText("Bs. " + balanceanterior);
         tvbalanceactual.setText("Bs. " + balanceactual);
 
         tvsignobalanceanterior = view.findViewById(R.id.tvsignobalanceanterior);
-        if (balanceanterio.charAt(0) != '-') {
+        if (balanceanterior.charAt(0) != '-') {
             tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
         } else {
             tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
@@ -108,15 +108,18 @@ public class HomeFragment extends Fragment {
                 selecteditem = position;
                 ingresos = controller.ObtenerIngresosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
                 gastos = controller.ObtenerGastosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
-                balanceanterio = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, (month) % 12, year);
-                balanceactual = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, month + 1, year);
+                balanceanterior = controller.ObtenerBalanceAcumulado(spinner.getSelectedItemPosition() + 1, month==0 ? 12:month, year);
+                balanceactual = controller.ObtenerBalanceAcumulado(spinner.getSelectedItemPosition() + 1, month + 1, year);
 
                 tvingreso.setText("Bs. " + ingresos);
                 tvgasto.setText("Bs. " + gastos);
-                tvbalanceanterior.setText("Bs. " + balanceanterio);
-                tvbalanceactual.setText("Bs. " + balanceactual);
+                tvbalanceanterior.setText("Bs. " + balanceanterior);
+                Log.d ("Balance anterior", month==0 ? "12":month+"");
 
-                if (balanceanterio.charAt(0) != '-') {
+                tvbalanceactual.setText("Bs. " + balanceactual);
+                Log.d ("Balance actual", balanceactual);
+
+                if (balanceanterior.charAt(0) != '-') {
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
                 } else {
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
