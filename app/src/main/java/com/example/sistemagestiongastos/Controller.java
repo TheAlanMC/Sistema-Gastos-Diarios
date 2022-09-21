@@ -137,6 +137,38 @@ public class Controller {
         return baseDeDatos.delete("transferencias", "id = ?", new String[]{String.valueOf(id)});
     }
 
+    public int ModificarIngreso(IncomeModel objProd) {
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        ContentValues valoresParaActualizar = new ContentValues();
+        valoresParaActualizar.put("monto", objProd.getMontoIngreso());
+        valoresParaActualizar.put("fuente_id", objProd.getFuenteIdIngreso());
+        valoresParaActualizar.put("categoria_ingresos_id", objProd.getCategoriaIdIngreso());
+        valoresParaActualizar.put("descripcion", objProd.getDescripcionIngreso());
+        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraIngreso());
+        return baseDeDatos.update("ingresos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(objProd.getIdIngreso())});
+    }
+
+    public int ModificarGasto(ExpenseModel objProd) {
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        ContentValues valoresParaActualizar = new ContentValues();
+        valoresParaActualizar.put("monto", objProd.getMontoGasto());
+        valoresParaActualizar.put("fuente_id", objProd.getFuenteIdGasto());
+        valoresParaActualizar.put("categoria_gastos_id", objProd.getCategoriaIdGasto());
+        valoresParaActualizar.put("descripcion", objProd.getDescripcionGasto());
+        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraGasto());
+        return baseDeDatos.update("gastos", valoresParaActualizar, "id = ?", new String[]{String.valueOf(objProd.getIdGasto())});
+    }
+
+    public int ModificarTransferencia(TransferModel objProd, int id) {
+        SQLiteDatabase baseDeDatos = helper.getWritableDatabase();
+        ContentValues valoresParaActualizar = new ContentValues();
+        valoresParaActualizar.put("monto", objProd.getMontoTransferencia());
+        valoresParaActualizar.put("fuente_id_origen", objProd.getCuentaDestinoTransferencia());
+        valoresParaActualizar.put("fuente_id_destino", objProd.getCuentaDestinoTransferencia());
+        valoresParaActualizar.put("descripcion", objProd.getDescripcionTransferencia());
+        valoresParaActualizar.put("fecha_hora", objProd.getFechaHoraTransferencia());
+        return baseDeDatos.update("transferencias", valoresParaActualizar, "id = ?", new String[]{String.valueOf(id)});
+    }
 
     public String ObtenerBalance(int fuenteId, int mes,int anio){
         double ingresos = ObtenerIngresos(fuenteId,mes,anio);

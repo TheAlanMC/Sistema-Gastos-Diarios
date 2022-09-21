@@ -121,6 +121,12 @@ public class HomeFragment extends Fragment {
                 } else {
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
                 }
+
+                if (balanceactual.charAt(0) != '-') {
+                    tvbalanceactual.setTextColor(Color.parseColor("#4CAF50"));
+                } else {
+                    tvbalanceactual.setTextColor(Color.parseColor("#F44336"));
+                }
             }
 
             @Override
