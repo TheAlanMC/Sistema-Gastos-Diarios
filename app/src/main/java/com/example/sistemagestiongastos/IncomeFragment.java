@@ -108,20 +108,25 @@ public class IncomeFragment extends Fragment {
                 EditText etmonto = view.findViewById(R.id.etnumingreso);
                 EditText etdescripcion = view.findViewById(R.id.etdescingreso);
 
-                Double monto = Double.parseDouble(etmonto.getText().toString());
-                int idfuente = spinner.getSelectedItemPosition() + 1;
-                int idcategoria = spinnerCat.getSelectedItemPosition() + 1;
-                String descripcion = etdescripcion.getText().toString();
-                String date[] = etDate.getText().toString().split(" / ");
-                String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
-
-                IncomeModel objingreso = new IncomeModel(monto, idfuente, idcategoria, descripcion, fechahora);
-                long res = controller.altaIngreso(objingreso);
-                if (res > 0) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                    Double monto = Double.parseDouble(etmonto.getText().toString());
+                    int idfuente = spinner.getSelectedItemPosition() + 1;
+                    int idcategoria = spinnerCat.getSelectedItemPosition() + 1;
+                    String descripcion = etdescripcion.getText().toString();
+                    String date[] = etDate.getText().toString().split(" / ");
+                    String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
+
+                    IncomeModel objingreso = new IncomeModel(monto, idfuente, idcategoria, descripcion, fechahora);
+                    long res = controller.altaIngreso(objingreso);
+                    if (res > 0) {
+                        Toast.makeText(getContext(), "Ingreso Registrado", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
 

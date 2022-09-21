@@ -103,21 +103,27 @@ public class TransferFragment extends Fragment {
                 controller = new Controller(getContext());
                 EditText etmonto = view.findViewById(R.id.etnumtransfer);
                 EditText etdescripcion = view.findViewById(R.id.etdesctransfer);
-
-                Double monto = Double.parseDouble(etmonto.getText().toString());
-                int idfuenteorigen = spinner.getSelectedItemPosition() + 1;
-                int idfuentedestino = spinnerDest.getSelectedItemPosition() + 1;
-                String descripcion = etdescripcion.getText().toString();
-                String date[] = etDate.getText().toString().split(" / ");
-                String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
-
-                TransferModel objtransfer = new TransferModel(monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
-                long res = controller.altaTransferencia(objtransfer);
-                if (res > 0) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+                } else if (spinner.getSelectedItemPosition() == spinnerDest.getSelectedItemPosition()) {
+                    Toast.makeText(getContext(), "La cuenta de origen y la cuenta de destino deben ser diferentes", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                    Double monto = Double.parseDouble(etmonto.getText().toString());
+                    int idfuenteorigen = spinner.getSelectedItemPosition() + 1;
+                    int idfuentedestino = spinnerDest.getSelectedItemPosition() + 1;
+                    String descripcion = etdescripcion.getText().toString();
+                    String date[] = etDate.getText().toString().split(" / ");
+                    String fechahora = (date[2] + "-" + date[1] + "-" + date[0]) + " " + etTime.getText().toString() + ":00";
+
+                    TransferModel objtransfer = new TransferModel(monto, idfuenteorigen, idfuentedestino, descripcion, fechahora);
+                    long res = controller.altaTransferencia(objtransfer);
+                    if (res > 0) {
+                        Toast.makeText(getContext(), "Transferencia Registrada", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             }
         });
         return view;
@@ -128,7 +134,7 @@ public class TransferFragment extends Fragment {
 
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                String time = (hourOfDay<10?"0"+hourOfDay:hourOfDay) + ":" + (minute<10?"0"+minute:minute);
+                String time = (hourOfDay < 10 ? "0" + hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
                 etTime.setText(time);
             }
         });

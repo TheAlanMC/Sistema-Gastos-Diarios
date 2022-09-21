@@ -110,7 +110,9 @@ public class ExpenseFragment extends Fragment {
                 controller = new Controller(getContext());
                 EditText etmonto = view.findViewById(R.id.etnumgasto);
                 EditText etdescripcion = view.findViewById(R.id.etdescgasto);
-
+                if (etmonto.getText().toString().isEmpty() || etdescripcion.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+                } else {
                 Double monto = Double.parseDouble(etmonto.getText().toString());
                 int idfuente = spinner.getSelectedItemPosition() + 1;
                 int idcategoria = spinnerCat.getSelectedItemPosition() + 1;
@@ -121,10 +123,10 @@ public class ExpenseFragment extends Fragment {
                 ExpenseModel objgasto = new ExpenseModel(monto, idfuente, idcategoria, descripcion, fechahora);
                 long res = controller.altaGasto(objgasto);
                 if (res > 0) {
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Gasto Registrado", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
-                }
+                }}
             }
         });
 
