@@ -54,14 +54,17 @@ public class Controller {
         return sql.insert("transferencias", null, valoresParaInsertar);
     }
 
-    public ArrayList<MovementModel> obtenerMovimientos(int fuenteId) {
+    public ArrayList<MovementModel> obtenerMovimientos(int fuenteId, int mes,int anio) {
         ArrayList<MovementModel> listaMovimientos = new ArrayList<>();
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
-        String q = "SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId + "" +
-                " UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId + "" +
+        String  fechaInicio = anio+"-"+mes+"-01";
+        String  fechaFin = anio+"-"+mes+"-31";
+        String q = "SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+                "UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+                "UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"' " +
+                "UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId + " and fecha_hora between '"+fechaInicio+"' and '"+fechaFin+"'" +
                 " ORDER BY fecha_hora DESC";
+
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
             return listaMovimientos;

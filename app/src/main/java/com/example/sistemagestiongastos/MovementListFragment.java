@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -83,10 +84,51 @@ public class MovementListFragment extends Fragment {
         rvproducto = view.findViewById(R.id.rvDataMovimientos);
         rvproducto.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
 
-        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1);
+        lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
         adaptador.setLista(lista);
         adaptador.notifyDataSetChanged();
         rvproducto.setAdapter(adaptador);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista = controller.obtenerMovimientos(position + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                adaptador.setLista(lista);
+                adaptador.notifyDataSetChanged();
+                rvproducto.setAdapter(adaptador);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spmes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, position + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                adaptador.setLista(lista);
+                adaptador.notifyDataSetChanged();
+                rvproducto.setAdapter(adaptador);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spanio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lista = controller.obtenerMovimientos(spinner.getSelectedItemPosition() + 1, spmes.getSelectedItemPosition() + 1, Integer.parseInt(spanio.getSelectedItem().toString()));
+                adaptador.setLista(lista);
+                adaptador.notifyDataSetChanged();
+                rvproducto.setAdapter(adaptador);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         return view;
     }
+
+
 }
