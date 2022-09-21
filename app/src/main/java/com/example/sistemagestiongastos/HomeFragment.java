@@ -1,5 +1,7 @@
 package com.example.sistemagestiongastos;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,20 +19,26 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
+import newadapter.MovementAdapter;
 import newadapter.SpinnerNewAdapter;
 
 public class HomeFragment extends Fragment {
     int selecteditem;
     TextView tvingresos1, tvingresos2, tvgastos1, tvgastos2, tvtransferencia1, tvtransferencia2;
-    TextView tvingreso, tvbalanceanterior, tvgasto, tvbalanceactual;
+    TextView tvmesactual, tvingreso, tvbalanceanterior, tvgasto, tvbalanceactual;
+    TextView tvsignobalanceanterior;
     Button btlistamovimientos;
     String[] textArray = {"Tarjeta", "Efectivo", "Ahorros"};
     Integer[] imageArray = {R.drawable.credit_card, R.drawable.money,
             R.drawable.piggy_bank};
     MedioTransporte medio;
     Spinner spinner;
+
+    Controller controller;
+    String ingresos, balanceanterio, gastos, balanceactual;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -61,6 +70,64 @@ public class HomeFragment extends Fragment {
         }
         spinner.setSelection(index);
 
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        tvmesactual = view.findViewById(R.id.tvmesactual);
+        tvmesactual.setText(meses[month] + ", " + year);
+
+        tvingreso = view.findViewById(R.id.tvingreso);
+        tvbalanceanterior = view.findViewById(R.id.tvbalanceanterior);
+        tvgasto = view.findViewById(R.id.tvgastos);
+        tvbalanceactual = view.findViewById(R.id.tvbalanceactual);
+
+        Context ctx = getContext();
+        controller = new Controller(ctx);
+
+        ingresos = controller.ObtenerIngresosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
+        gastos = controller.ObtenerGastosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
+        balanceanterio = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, (month) % 11, year);
+        balanceactual = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, month + 1, year);
+
+        tvingreso.setText("Bs. " + ingresos);
+        tvgasto.setText("Bs. " + gastos);
+        tvbalanceanterior.setText("Bs. " + balanceanterio);
+        tvbalanceactual.setText("Bs. " + balanceactual);
+
+        tvsignobalanceanterior = view.findViewById(R.id.tvsignobalanceanterior);
+        if (balanceanterio.charAt(0) != '-') {
+            tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
+        } else {
+            tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
+        }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selecteditem = position;
+                ingresos = controller.ObtenerIngresosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
+                gastos = controller.ObtenerGastosString(spinner.getSelectedItemPosition() + 1, month + 1, year);
+                balanceanterio = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, (month) % 12, year);
+                balanceactual = controller.ObtenerBalance(spinner.getSelectedItemPosition() + 1, month + 1, year);
+
+                tvingreso.setText("Bs. " + ingresos);
+                tvgasto.setText("Bs. " + gastos);
+                tvbalanceanterior.setText("Bs. " + balanceanterio);
+                tvbalanceactual.setText("Bs. " + balanceactual);
+
+                if (balanceanterio.charAt(0) != '-') {
+                    tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
+                } else {
+                    tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         tvingresos1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

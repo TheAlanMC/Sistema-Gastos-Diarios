@@ -134,5 +134,24 @@ public class Controller {
         }
     }
 
+    public String ObtenerIngresosString(int fuenteId, int mes,int anio){
+        double ingresos = ObtenerIngresos(fuenteId,mes,anio);
+        if (ingresos ==0){
+            return "0.00";
+        }
+        else {
+            return String.format("%.2f", ingresos);
+        }
+    }
+
+    public String ObtenerGastosString(int fuenteId, int mes,int anio){
+        double gastos = ObtenerGastos(fuenteId,mes,anio);
+        if (gastos ==0){
+            return "0.00";
+        }
+        else {
+            return String.format("%.2f", gastos);
+        }
+    }
 
 }
