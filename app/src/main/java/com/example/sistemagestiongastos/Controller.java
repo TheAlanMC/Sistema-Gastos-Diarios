@@ -60,9 +60,9 @@ public class Controller {
         String fecha = anio + "-" + mes + "%";
         String q = "SELECT * FROM (" +
                 " SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId +
-                " UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId +
+                " UNION ALL SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
+                " UNION ALL SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId +
+                " UNION ALL SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId +
                 " ) WHERE fecha_hora LIKE " + "'" + fecha + "'" +
                 " ORDER BY fecha_hora DESC";
         Cursor cursor = baseDeDatos.rawQuery(q, null);
@@ -92,9 +92,9 @@ public class Controller {
         String fecha = anio + "-%";
         String q = "SELECT * FROM (" +
                 " SELECT * , 1 as tipo FROM ingresos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
-                " UNION SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId +
-                " UNION SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId +
+                " UNION ALL SELECT * , 2 as tipo FROM gastos WHERE fuente_id=" + fuenteId +
+                " UNION ALL SELECT * , 3 as tipo FROM transferencias WHERE fuente_id_origen=" + fuenteId +
+                " UNION ALL SELECT * , 4 as tipo FROM transferencias WHERE fuente_id_destino=" + fuenteId +
                 " ) WHERE fecha_hora LIKE " + "'" + fecha + "'" +
                 " ORDER BY fecha_hora DESC";
         Cursor cursor = baseDeDatos.rawQuery(q, null);
@@ -122,8 +122,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "-" + mes + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM ingresos WHERE fuente_id=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
-
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
             return 0;
@@ -139,7 +138,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "-" + mes + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM gastos WHERE fuente_id=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
@@ -215,7 +214,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "-" + (mes + 1) + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM ingresos WHERE fuente_id=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'" + ")";
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'" + ")";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
@@ -232,7 +231,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "-" + (mes + 1) + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM gastos WHERE fuente_id=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'" + ")";
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora NOT LIKE " + "'" + fecha + "'" + ")";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
@@ -260,7 +259,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM ingresos WHERE fuente_id=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_destino=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {
@@ -277,7 +276,7 @@ public class Controller {
         SQLiteDatabase baseDeDatos = helper.getReadableDatabase();
         String fecha = anio + "%";
         String q = "SELECT SUM(monto) FROM (SELECT monto FROM gastos WHERE fuente_id=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'"
-                + " UNION SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
+                + " UNION ALL SELECT monto FROM transferencias WHERE fuente_id_origen=" + fuenteId + " AND fecha_hora LIKE " + "'" + fecha + "'" + ")";
 
         Cursor cursor = baseDeDatos.rawQuery(q, null);
         if (cursor == null) {

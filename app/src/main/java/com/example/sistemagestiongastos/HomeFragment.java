@@ -113,13 +113,14 @@ public class HomeFragment extends Fragment {
 
                 tvingreso.setText("Bs. " + ingresos);
                 tvgasto.setText("Bs. " + gastos);
-                tvbalanceanterior.setText("Bs. " + balanceanterior);
                 tvbalanceactual.setText("Bs. " + balanceactual);
 
                 if (balanceanterior.charAt(0) != '-') {
+                    tvbalanceanterior.setText("Bs. " + balanceanterior);
                     tvsignobalanceanterior.setText("+");
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#4CAF50"));
                 } else {
+                    tvbalanceanterior.setText("Bs. " + balanceanterior.substring(1));
                     tvsignobalanceanterior.setText("—");
                     tvsignobalanceanterior.setTextColor(Color.parseColor("#F44336"));
                 }
